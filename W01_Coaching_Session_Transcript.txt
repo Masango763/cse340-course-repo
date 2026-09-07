@@ -1,11 +1,67 @@
-# CSE 340 - W01 Coaching Session Transcript
+CSE 340 - W01 COACHING SESSION TRANSCRIPT
 
-**Student:** Masango Dewheretsoko
-**Course:** CSE 340 - Web Backend Development
+Student: Masango Dewheretsoko
+Course: CSE 340 - Web Backend Development
 
-## Topics Covered & Technical Summary
 
-1. **Express Routing:** Implemented modular routing using `express.Router()`, defined endpoint handlers (`getHome`, `getCategories`), and mounted middleware with `app.use('/', staticRouter)`.
-2. **JavaScript Language Principles:** Applied ES Module standards (`import`/`export`), scoped variables immutably using `const`, and utilized ES6 arrow functions.
-3. **EJS Partials and Pages:** Configured dynamic views (`index.ejs`, `categories.ejs`), page layouts using `express-ejs-layouts`, partial components (`header`, `footer`), and EJS output tags (`<%= %>` vs `<% %>`).
-4. **Frontend CSS:** Designed responsive card layouts with CSS Grid (`repeat(auto-fit, minmax(280px, 1fr))`) and managed theme styling using CSS custom properties (`:root`).
+1. EXPRESS ROUTING IN SERVER.JS
+Discussion:
+Implemented modular routing using express.Router(), defined endpoint handlers (getHome, getCategories), and mounted middleware with app.use('/', staticRouter). Express matches incoming HTTP request URIs against registered routes to execute corresponding controller logic.
+
+Code Snippet:
+import { Router } from 'express';
+const router = Router();
+
+const getCategories = (req, res) => {
+  const projectCategories = ['Environmental', 'Educational', 'Community Service'];
+  res.render('categories', { title: 'Categories | CSE 340', categories: projectCategories });
+};
+
+router.get('/categories', getCategories);
+export default router;
+
+
+2. JAVASCRIPT LANGUAGE PRINCIPLES
+Discussion:
+Applied ES Module standards (import/export), scoped variables immutably using const, and utilized ES6 arrow functions. This modern syntax avoids legacy var declarations and ensures clean scope handling.
+
+Code Snippet:
+import { Router } from 'express';
+const router = Router();
+
+const getCategories = (req, res) => {
+  const projectCategories = ['Environmental', 'Educational'];
+  res.render('categories', { categories: projectCategories });
+};
+
+
+3. EJS PARTIALS AND PAGES
+Discussion:
+Configured dynamic views (index.ejs, categories.ejs), page layouts using express-ejs-layouts, partial components (header, footer), and EJS output tags (<%= %> vs <% %>). This decouples view templates from backend handler routes.
+
+Code Snippet:
+<section class="page-section">
+  <h1><%= title %></h1>
+  <ul class="category-list">
+    <% categories.forEach((category) => { %>
+      <li class="category-item"><%= category %></li>
+    <% }) %>
+  </ul>
+</section>
+
+
+4. FRONTEND CSS
+Discussion:
+Designed responsive card layouts with CSS Grid (repeat(auto-fit, minmax(280px, 1fr))) and managed theme styling using CSS custom properties (:root).
+
+Code Snippet:
+:root {
+  --primary: #1e40af;
+  --bg: #f8fafc;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
