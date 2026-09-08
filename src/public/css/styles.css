@@ -24,7 +24,6 @@ body {
 .site-title {
     font-size: 1.35rem;
     font-weight: 700;
-    letter-spacing: -0.01em;
 }
 
 .nav-links {
@@ -39,10 +38,6 @@ body {
     font-size: 1.05rem;
 }
 
-.nav-links a:hover {
-    text-decoration: underline;
-}
-
 .content-container {
     padding: 3rem 2.5rem;
     max-width: 1200px;
@@ -53,11 +48,9 @@ body {
     font-weight: 800;
     color: #0f172a;
     margin-bottom: 0.5rem;
-    letter-spacing: -0.02em;
 }
 
 .page-subtitle {
     font-size: 1.15rem;
     color: #334155;
-    font-weight: 400;
 }

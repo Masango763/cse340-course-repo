@@ -1,5 +1,4 @@
 import express from 'express';
-import expressLayouts from 'express-ejs-layouts';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { getAllOrganizations } from './models/organizations.js';
@@ -12,23 +11,11 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Static Assets
-app.use(express.static(path.join(process.cwd(), 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, '../public')));
 
-// EJS Layouts Middleware
-app.use(expressLayouts);
-app.set('layout', './layouts/layout');
-
-// View Engine Configuration
 app.set('view engine', 'ejs');
-app.set('views', [
-  path.join(__dirname, 'views'),
-  path.join(process.cwd(), 'views')
-]);
+app.set('views', path.join(__dirname, 'views'));
 
-// Routes
 app.get('/', (req, res) => {
   res.render('index', { title: 'Home | CSE 340' });
 });
