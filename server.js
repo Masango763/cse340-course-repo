@@ -1,6 +1,11 @@
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
+import staticRoutes from './routes/static.js';
+import { getNav } from './utilities/index.js';
+
+dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -8,66 +13,35 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-let getAllOrganizations = async () => [];
-let getAllProjects = async () => [];
-let getAllCategories = async () => [];
-
-try {
-  const mod = await import('./models/organizations.js').catch(() => import('../models/organizations.js'));
-  getAllOrganizations = mod.getAllOrganizations || mod.default || getAllOrganizations;
-} catch (e) { console.warn('Organizations model fallback applied'); }
-
-try {
-  const mod = await import('./models/projects.js').catch(() => import('../models/projects.js'));
-  getAllProjects = mod.getAllProjects || mod.default || getAllProjects;
-} catch (e) { console.warn('Projects model fallback applied'); }
-
-try {
-  const mod = await import('./models/categories.js').catch(() => import('../models/categories.js'));
-  getAllCategories = mod.getAllCategories || mod.default || getAllCategories;
-} catch (e) { console.warn('Categories model fallback applied'); }
-
+// Static Assets
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(process.cwd(), 'public')));
 
+// View Engine
 app.set('view engine', 'ejs');
 app.set('views', [
   path.join(__dirname, 'views'),
   path.join(process.cwd(), 'views')
 ]);
 
-app.get('/', (req, res) => {
-  res.render('index', { title: 'Home | CSE 340' });
+// Dynamic Navigation Middleware
+app.use(getNav);
+
+// Application Routes
+app.use('/', staticRoutes);
+
+// 404 Middleware
+app.use((req, res, next) => {
+  res.status(404).render('404', { title: '404 - Page Not Found' });
 });
 
-app.get('/organizations', async (req, res) => {
-  try {
-    const organizations = await getAllOrganizations();
-    res.render('organizations', { title: 'Our Partner Organizations', organizations });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Unable to load organizations.');
-  }
-});
-
-app.get('/projects', async (req, res) => {
-  try {
-    const projects = await getAllProjects();
-    res.render('projects', { title: 'Upcoming Service Projects', projects });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Unable to load projects.');
-  }
-});
-
-app.get('/categories', async (req, res) => {
-  try {
-    const categories = await getAllCategories();
-    res.render('categories', { title: 'Service Categories', categories });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Unable to load categories.');
-  }
+// Global Express Error Middleware
+app.use((err, req, res, next) => {
+  console.error('Unhandled Server Error:', err.stack || err);
+  res.status(err.status || 500).render('error', {
+    title: '500 - Server Error',
+    message: err.message || 'Server error occurred.'
+  });
 });
 
 app.listen(PORT, () => {

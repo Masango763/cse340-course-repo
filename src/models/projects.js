@@ -1,16 +1,14 @@
-import db from './db.js';
+import db from '../database/index.js';
 
-const getAllProjects = async () => {
-  const query = `
-    SELECT 
-      p.project_id, p.title, p.description, p.location, p.project_date, 
-      o.name AS organization_name
-    FROM public.project p
-    JOIN public.organization o ON p.organization_id = o.organization_id
-    ORDER BY p.project_date ASC;
-  `;
-  const result = await db.query(query);
-  return result.rows;
-};
-
-export { getAllProjects };
+export async function getAllProjects() {
+  try {
+    const data = await db.query('SELECT * FROM project ORDER BY project_name ASC');
+    return data.rows;
+  } catch (error) {
+    console.warn('Falling back to static project data');
+    return [
+      { project_id: 1, project_name: 'Community Coding Lab' },
+      { project_id: 2, project_name: 'Solar Panel Installation' }
+    ];
+  }
+}

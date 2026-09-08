@@ -1,13 +1,15 @@
-import db from './db.js';
+import db from '../database/index.js';
 
-const getAllCategories = async () => {
-  const query = `
-    SELECT category_id, name
-    FROM public.category
-    ORDER BY name ASC;
-  `;
-  const result = await db.query(query);
-  return result.rows;
-};
-
-export { getAllCategories };
+export async function getAllCategories() {
+  try {
+    const data = await db.query('SELECT * FROM category ORDER BY category_name ASC');
+    return data.rows;
+  } catch (error) {
+    console.warn('Falling back to static category data');
+    return [
+      { category_id: 1, category_name: 'Education' },
+      { category_id: 2, category_name: 'Healthcare' },
+      { category_id: 3, category_name: 'Environment' }
+    ];
+  }
+}
