@@ -1,16 +1,15 @@
 import express from 'express';
-import expressLayouts from 'express-ejs-layouts';
-import staticRouter from './routes/static.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
-app.set('view engine', 'ejs');
-app.use(expressLayouts);
+// Serve static files (CSS, images) from public folder
 app.use(express.static('public'));
 
-app.use('/', staticRouter);
-
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+// Configure EJS view engine
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
