@@ -6,38 +6,41 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: #fcfcfc;
-    color: #111827;
-    line-height: 1.5;
-    padding: 0.5rem;
+    background-color: #f8fafc;
+    color: #0f172a;
+    padding: 0.75rem;
 }
 
 .site-header {
-    background-color: #1b44b8;
+    background-color: #1a43bf;
     color: #ffffff;
     padding: 1.25rem 2.5rem;
     border-radius: 12px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 .site-title {
-    font-size: 1.4rem;
-    font-weight: 800;
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
 }
 
-.nav-menu {
+.nav-links {
     display: flex;
     gap: 1.75rem;
 }
 
-.nav-menu a {
+.nav-links a {
     color: #ffffff;
     text-decoration: none;
     font-weight: 700;
     font-size: 1.05rem;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
 }
 
 .content-container {
@@ -50,15 +53,11 @@ body {
     font-weight: 800;
     color: #0f172a;
     margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
 }
 
 .page-subtitle {
     font-size: 1.15rem;
     color: #334155;
-}
-
-.main-footer {
-    padding: 2.5rem;
-    color: #64748b;
-    font-size: 0.95rem;
+    font-weight: 400;
 }
