@@ -1,0 +1,25 @@
+<%- include('partials/header') %>
+
+<main class="content-container">
+    <h1 class="page-title"><%= category.category_name %> Projects</h1>
+    <p class="page-subtitle"><%= category.category_description || 'Explore active community projects under this category.' %></p>
+
+    <div class="card-grid">
+        <% if (projects && projects.length > 0) { %>
+            <% projects.forEach(project => { %>
+                <article class="card">
+                    <span class="badge"><%= category.category_name %></span>
+                    <h2 class="card-title"><%= project.project_name %></h2>
+                    <p class="card-text"><%= project.project_description %></p>
+                    <% if (project.organization_name) { %>
+                        <p class="card-meta">Partner: <strong><%= project.organization_name %></strong></p>
+                    <% } %>
+                </article>
+            <% }) %>
+        <% } else { %>
+            <p>No projects found for this category yet.</p>
+        <% } %>
+    </div>
+</main>
+
+<%- include('partials/footer') %>

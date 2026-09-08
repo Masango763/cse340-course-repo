@@ -1,0 +1,22 @@
+<%- include('partials/header') %>
+
+<main class="content-container">
+    <h1 class="page-title">Our Partner Organizations</h1>
+    <p class="page-subtitle">Non-profit partners driving technological transformation across local communities.</p>
+
+    <div class="card-grid">
+        <% if (organizations && organizations.length > 0) { %>
+            <% organizations.forEach(org => { %>
+                <article class="card">
+                    <h2 class="card-title"><%= org.organization_name %></h2>
+                    <p class="card-text"><%= org.organization_description || 'Dedicated non-profit partner organization.' %></p>
+                    <% if (org.organization_email) { %>
+                        <p class="card-meta">Email: <%= org.organization_email %></p>
+                    <% } %>
+                </article>
+            <% }) %>
+        <% } %>
+    </div>
+</main>
+
+<%- include('partials/footer') %>

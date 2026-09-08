@@ -1,10 +1,20 @@
 <%- include('partials/header') %>
-<main class="container">
-    <h1><%= title %></h1>
-    <ul class="category-list">
-        <% categories.forEach(category => { %>
-            <li><strong><%= category.name %></strong></li>
-        <% }); %>
-    </ul>
+
+<main class="content-container">
+    <h1 class="page-title">Service Categories</h1>
+    <p class="page-subtitle">Browse community projects by sector and domain impact.</p>
+
+    <div class="card-grid">
+        <% if (categories && categories.length > 0) { %>
+            <% categories.forEach(cat => { %>
+                <article class="card">
+                    <h2 class="card-title"><%= cat.category_name %></h2>
+                    <p class="card-text"><%= cat.category_description || 'Browse active initiatives in this area.' %></p>
+                    <a href="/categories/<%= cat.category_id %>" class="btn-link">View Projects &rarr;</a>
+                </article>
+            <% }) %>
+        <% } %>
+    </div>
 </main>
+
 <%- include('partials/footer') %>

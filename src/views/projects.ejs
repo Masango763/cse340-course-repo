@@ -1,0 +1,23 @@
+<%- include('partials/header') %>
+
+<main class="content-container">
+    <h1 class="page-title">Upcoming Service Projects</h1>
+    <p class="page-subtitle">Hands-on software engineering initiatives open for participation.</p>
+
+    <div class="card-grid">
+        <% if (projects && projects.length > 0) { %>
+            <% projects.forEach(project => { %>
+                <article class="card">
+                    <span class="badge"><%= project.category_name || 'General' %></span>
+                    <h2 class="card-title"><%= project.project_name %></h2>
+                    <p class="card-text"><%= project.project_description %></p>
+                    <% if (project.organization_name) { %>
+                        <p class="card-meta">Lead: <strong><%= project.organization_name %></strong></p>
+                    <% } %>
+                </article>
+            <% }) %>
+        <% } %>
+    </div>
+</main>
+
+<%- include('partials/footer') %>
