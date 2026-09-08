@@ -8,7 +8,7 @@ export async function getNav(req, res, next) {
     nav += '<a href="/organizations">Organizations</a>';
     nav += '<a href="/projects">Projects</a>';
     
-    if (Array.isArray(categories)) {
+    if (Array.isArray(categories) && categories.length > 0) {
       categories.forEach(cat => {
         nav += `<a href="/categories/${cat.category_id || cat.id}">${cat.category_name || cat.name}</a>`;
       });
