@@ -1,23 +1,26 @@
-<%- include('partials/header') %>
+﻿<%- include('partials/header') %>
 
 <main class="content-container">
-    <h1 class="page-title">Upcoming Service Projects</h1>
-    <p class="page-subtitle">Hands-on software engineering initiatives open for participation.</p>
+    <h1 class="page-title">Service Projects</h1>
+    <p class="page-subtitle">Community technology projects managed by our partner organizations.</p>
 
-    <div class="card-grid">
+    <ul class="project-list" style="list-style-type: none; padding: 0;">
         <% if (projects && projects.length > 0) { %>
             <% projects.forEach(project => { %>
-                <article class="card">
-                    <span class="badge"><%= project.category_name || 'General' %></span>
-                    <h2 class="card-title"><%= project.project_name %></h2>
-                    <p class="card-text"><%= project.project_description %></p>
-                    <% if (project.organization_name) { %>
-                        <p class="card-meta">Lead: <strong><%= project.organization_name %></strong></p>
-                    <% } %>
-                </article>
+                <li style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem 1.25rem; margin-bottom: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+                    <div style="font-weight: 700; font-size: 1.1rem; color: #0f172a;">
+                        <%= project.formatted_date %>: <%= project.project_name %> (<%= project.organization_name || 'Unassigned' %>)
+                    </div>
+                    <p style="margin-top: 0.5rem; color: #475569;"><%= project.project_description %></p>
+                    <div style="margin-top: 0.5rem; font-size: 0.85rem; color: #64748b;">
+                        Location: <strong><%= project.location %></strong> | Category: <strong><%= project.category_name %></strong>
+                    </div>
+                </li>
             <% }) %>
+        <% } else { %>
+            <li>No service projects found.</li>
         <% } %>
-    </div>
+    </ul>
 </main>
 
 <%- include('partials/footer') %>
