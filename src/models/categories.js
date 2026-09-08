@@ -9,3 +9,13 @@ export async function getAllCategories() {
     return [];
   }
 }
+
+export async function getCategoryById(categoryId) {
+  try {
+    const data = await db.query('SELECT * FROM category WHERE category_id = $1', [categoryId]);
+    return data.rows[0];
+  } catch (error) {
+    console.error('Error in getCategoryById:', error);
+    return null;
+  }
+}
