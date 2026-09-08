@@ -11,15 +11,16 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Serve static files correctly from root /public directory
-app.use(express.static(path.join(__dirname, '../public')));
+// Serve static assets from both public and src/public
 app.use(express.static(path.join(process.cwd(), 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../public')));
 
-// Configure EJS view engine
+// Configure views engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Routes
+// Route Handlers
 app.get('/', (req, res) => {
   res.render('index', { title: 'Home | CSE 340' });
 });
@@ -29,7 +30,7 @@ app.get('/organizations', async (req, res) => {
     const organizations = await getAllOrganizations();
     res.render('organizations', { title: 'Our Partner Organizations', organizations });
   } catch (error) {
-    console.error('Error fetching organizations:', error);
+    console.error(error);
     res.status(500).render('error', { title: 'Error', message: 'Unable to load organizations.' });
   }
 });
@@ -39,7 +40,7 @@ app.get('/projects', async (req, res) => {
     const projects = await getAllProjects();
     res.render('projects', { title: 'Upcoming Service Projects', projects });
   } catch (error) {
-    console.error('Error fetching projects:', error);
+    console.error(error);
     res.status(500).render('error', { title: 'Error', message: 'Unable to load projects.' });
   }
 });
@@ -49,11 +50,11 @@ app.get('/categories', async (req, res) => {
     const categories = await getAllCategories();
     res.render('categories', { title: 'Service Categories', categories });
   } catch (error) {
-    console.error('Error fetching categories:', error);
+    console.error(error);
     res.status(500).render('error', { title: 'Error', message: 'Unable to load categories.' });
   }
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running on http://127.0.0.1:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
