@@ -26,7 +26,6 @@ body {
 .site-title {
     font-size: 1.4rem;
     font-weight: 800;
-    letter-spacing: -0.025em;
 }
 
 .nav-menu {
@@ -39,11 +38,6 @@ body {
     text-decoration: none;
     font-weight: 700;
     font-size: 1.05rem;
-    transition: opacity 0.2s ease;
-}
-
-.nav-menu a:hover {
-    opacity: 0.85;
 }
 
 .content-container {
@@ -56,13 +50,11 @@ body {
     font-weight: 800;
     color: #0f172a;
     margin-bottom: 0.5rem;
-    letter-spacing: -0.03em;
 }
 
 .page-subtitle {
     font-size: 1.15rem;
     color: #334155;
-    font-weight: 400;
 }
 
 .main-footer {

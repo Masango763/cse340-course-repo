@@ -11,16 +11,19 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Serve static assets from both public and src/public
+// Static Asset Resolution (Serves CSS from public folders)
 app.use(express.static(path.join(process.cwd(), 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, '../public')));
 
-// Configure views engine
+// View Engine Setup
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', [
+  path.join(__dirname, 'views'),
+  path.join(process.cwd(), 'views')
+]);
 
-// Route Handlers
+// Routes
 app.get('/', (req, res) => {
   res.render('index', { title: 'Home | CSE 340' });
 });
