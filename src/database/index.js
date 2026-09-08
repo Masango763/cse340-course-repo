@@ -4,20 +4,23 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const { Pool } = pkg;
+const connectionString = process.env.DATABASE_URL;
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
-});
+let pool = null;
+if (connectionString) {
+  pool = new Pool({
+    connectionString,
+    ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
+  });
+} else {
+  console.warn('Warning: DATABASE_URL not set. Running in fallback mode.');
+}
 
 export default {
   async query(text, params) {
-    try {
-      const res = await pool.query(text, params);
-      return res;
-    } catch (error) {
-      console.error('Database query error:', error);
-      throw error;
+    if (!pool) {
+      throw new Error('Database connection string (DATABASE_URL) is undefined.');
     }
+    return await pool.query(text, params);
   }
 };
