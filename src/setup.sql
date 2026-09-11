@@ -1,46 +1,36 @@
--- Drop existing tables
-DROP TABLE IF EXISTS project CASCADE;
-DROP TABLE IF EXISTS category CASCADE;
-DROP TABLE IF EXISTS organization CASCADE;
-
--- Create Tables
-CREATE TABLE category (
-    category_id SERIAL PRIMARY KEY,
-    category_name VARCHAR(50) NOT NULL,
-    category_description TEXT
-);
-
-CREATE TABLE organization (
-    organization_id SERIAL PRIMARY KEY,
-    organization_name VARCHAR(100) NOT NULL,
-    organization_email VARCHAR(100),
-    organization_website VARCHAR(150),
-    organization_description TEXT
-);
-
-CREATE TABLE project (
+-- 1. Create the projects table
+CREATE TABLE IF NOT EXISTS projects (
     project_id SERIAL PRIMARY KEY,
-    project_name VARCHAR(100) NOT NULL,
-    project_description TEXT NOT NULL,
-    location VARCHAR(100) NOT NULL DEFAULT 'Harare',
-    project_date DATE NOT NULL DEFAULT CURRENT_DATE,
-    category_id INT REFERENCES category(category_id) ON DELETE CASCADE,
-    organization_id INT REFERENCES organization(organization_id) ON DELETE CASCADE
+    organization_id INT NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    location VARCHAR(255) NOT NULL,
+    project_date DATE NOT NULL,
+    CONSTRAINT fk_organization
+        FOREIGN KEY(organization_id) 
+        REFERENCES organizations(organization_id)
+        ON DELETE CASCADE
 );
 
--- Seed Data
-INSERT INTO organization (organization_id, organization_name, organization_email, organization_website, organization_description) VALUES
-(1, 'Tech for Good', 'contact@techforgood.org', 'https://techforgood.org', 'Empowering local communities through digital skills training.'),
-(2, 'Green Earth Initiative', 'info@greenearth.org', 'https://greenearth.org', 'Promoting environmental sustainability through tech solutions.'),
-(3, 'Health Tech Alliance', 'support@healthtech.org', 'https://healthtech.org', 'Modernizing healthcare accessibility in underserved regions.');
+-- 2. Insert sample service projects (assuming organization_ids 1, 2, and 3 exist)
+INSERT INTO projects (organization_id, title, description, location, project_date) VALUES
+(1, 'Community Garden Planting', 'Planting seasonal vegetables and flowers for the local community.', 'Central Park', '2026-10-15'),
+(1, 'Food Bank Packaging', 'Sorting and packing non-perishable goods for distribution.', 'Downtown Warehouse', '2026-10-22'),
+(1, 'Neighborhood Cleanup', 'Removing litter and clearing brush along the riverwalk.', 'River Park', '2026-11-05'),
+(1, 'Senior Tech Support', 'Helping local seniors set up mobile devices and emails.', 'Community Center', '2026-11-12'),
+(1, 'Holiday Toy Drive', 'Collecting and wrapping gifts for local families.', 'Main Library', '2026-12-01'),
 
-INSERT INTO category (category_id, category_name, category_description) VALUES
-(1, 'Education', 'Technology initiatives supporting schools, literacy, and digital learning.'),
-(2, 'Healthcare', 'Digital solutions for community health centers and patient wellbeing.'),
-(3, 'Environment', 'Tech tools driving sustainability, conservation, and eco-friendly practices.');
+(2, 'Youth Mentorship Kickoff', 'Pairing college mentors with local middle school students.', 'City High School', '2026-10-18'),
+(2, 'After-School Tutoring', 'Assisting elementary school children with math and reading homework.', 'Eastside Elementary', '2026-10-25'),
+(2, 'STEM Workshop', 'Interactive science experiments for kids aged 8-12.', 'Science Center', '2026-11-08'),
+(2, 'Coat Drive Collection', 'Gathering winter coats and blankets for families in need.', 'Youth Hub', '2026-11-19'),
+(2, 'Career Day Prep', 'Helping teens build resumes and practice mock interviews.', 'Civic Hall', '2026-12-05'),
 
-INSERT INTO project (project_name, project_description, location, project_date, category_id, organization_id) VALUES
-('Community Coding Lab', 'Interactive coding workshops for underprivileged students.', 'Harare CBD', '2026-10-15', 1, 1),
-('Digital Literacy Drive', 'Teaching computer basics to adult learners.', 'Highfield', '2026-10-22', 1, 1),
-('Solar Power Tracker App', 'IoT dashboards to monitor solar installations in rural clinics.', 'Mutare', '2026-10-10', 3, 2),
-('Clinic Appointment Portal', 'Web portal for scheduling local patient appointments.', 'Epworth', '2026-10-12', 2, 3);
+(3, 'Shelter Painting Project', 'Repainting interior rooms at the municipal shelter.', 'Hope Shelter', '2026-10-20'),
+(3, 'Hygiene Kit Assembly', 'Packing essential hygiene supplies into travel bags.', 'Red Cross Building', '2026-10-29'),
+(3, 'Soup Kitchen Service', 'Preparing and serving warm lunch meals to local residents.', 'St. Jude Kitchen', '2026-11-10'),
+(3, 'Disaster Prep Workshop', 'Distributing emergency preparedness information kits.', 'Fire Station 4', '2026-11-24'),
+(3, 'Winter Blanket Drive', 'Distributing heavy blankets and warm clothing.', 'Westside Depot', '2026-12-10');
+
+-- 3. Verify data insertion
+SELECT * FROM projects;
