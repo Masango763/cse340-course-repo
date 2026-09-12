@@ -1,3 +1,4 @@
+import { buildProjectsPage } from "./controllers/projectController.js";
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -32,6 +33,8 @@ app.use((err, req, res, next) => {
     message: err.message || 'Server error occurred.'
   });
 });
+
+app.get("/projects", buildProjectsPage);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
