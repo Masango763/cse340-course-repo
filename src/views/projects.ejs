@@ -2,31 +2,26 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title><%= title %></title>
+  <title>Upcoming Projects</title>
   <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-  <%- include('partials/header') %>
-
   <main>
-    <h1>Service Projects</h1>
-
-    <ul class="projects-list">
-      <% if (projects && projects.length > 0) { %>
-        <% projects.forEach(project => { %>
+    <h1>Upcoming Projects</h1>
+    <% if (projects && projects.length > 0) { %>
+      <ul>
+        <% projects.forEach(function(project) { %>
           <li>
-            <strong><%= project.formattedDate %>:</strong> 
-            <%= project.title %> 
+            <strong><%= project.project_date %>:</strong>
+            <a href="/project/<%= project.project_id %>"><%= project.project_name %></a>
             <em>(<%= project.organization_name %>)</em>
-            <p><%= project.description %> — <span><%= project.location %></span></p>
+            <p><%= project.project_description %> — <span><%= project.location %></span></p>
           </li>
-        <% }) %>
-      <% } else { %>
-        <p>No service projects found.</p>
-      <% } %>
-    </ul>
+        <% }); %>
+      </ul>
+    <% } else { %>
+      <p>No projects found.</p>
+    <% } %>
   </main>
-
-  <%- include('partials/footer') %>
 </body>
 </html>
