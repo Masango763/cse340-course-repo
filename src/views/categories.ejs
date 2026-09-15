@@ -3,12 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <title><%= title %></title>
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-  <main>
+  <header style="background-color: #1d4ed8; color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+    <h1 style="margin: 0; font-size: 1.5rem;">CSE 340 Service Hub</h1>
+    <nav>
+      <a href="/projects" style="color: white; margin-left: 1.5rem; text-decoration: none; font-weight: bold;">Home</a>
+      <a href="/organizations" style="color: white; margin-left: 1.5rem; text-decoration: none; font-weight: bold;">Organizations</a>
+      <a href="/projects" style="color: white; margin-left: 1.5rem; text-decoration: none; font-weight: bold;">Projects</a>
+      <a href="/categories" style="color: white; margin-left: 1.5rem; text-decoration: none; font-weight: bold;">Categories</a>
+    </nav>
+  </header>
+  <main style="padding: 0 2rem;">
     <h2>All Categories</h2>
     <% if (categories && categories.length > 0) { %>
-      <ul>
+      <ul style="line-height: 2rem;">
         <% categories.forEach(category => { %>
           <li>
             <a href="/category/<%= category.category_id %>"><%= category.name %></a>
