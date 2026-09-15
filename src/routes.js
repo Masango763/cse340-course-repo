@@ -1,20 +1,23 @@
-import { Router } from 'express';
+import express from 'express';
+import { showCategoriesPage, showCategoryDetailsPage } from './controllers/categories.js';
 import { showOrganizationsPage, showOrganizationDetailsPage } from './controllers/organizations.js';
 import { showProjectsPage, showProjectDetailsPage } from './controllers/projects.js';
-import { showCategoriesPage, showCategoryDetailsPage } from './controllers/categories.js';
 
-const router = Router();
+const router = express.Router();
 
-// Organizations
+// Home / Root Route
+router.get('/', showProjectsPage);
+
+// Categories Routes
+router.get('/categories', showCategoriesPage);
+router.get('/category/:id', showCategoryDetailsPage);
+
+// Organizations Routes
 router.get('/organizations', showOrganizationsPage);
 router.get('/organization/:id', showOrganizationDetailsPage);
 
-// Projects
+// Projects Routes
 router.get('/projects', showProjectsPage);
 router.get('/project/:id', showProjectDetailsPage);
-
-// Categories
-router.get('/categories', showCategoriesPage);
-router.get('/category/:id', showCategoryDetailsPage);
 
 export default router;
