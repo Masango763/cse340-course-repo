@@ -1,21 +1,19 @@
-import db from '../database/index.js';
+import db from '../config/database.js';
 
-export async function getAllCategories() {
-  try {
-    const data = await db.query('SELECT * FROM category ORDER BY category_name ASC');
-    return data.rows;
-  } catch (error) {
-    console.error('Error in getAllCategories:', error);
-    return [];
-  }
-}
+const getAllCategories = async () => {
+  const query = `SELECT category_id, name FROM category ORDER BY name;`;
+  const result = await db.query(query);
+  return result.rows;
+};
 
-export async function getCategoryById(categoryId) {
-  try {
-    const data = await db.query('SELECT * FROM category WHERE category_id = $1', [categoryId]);
-    return data.rows[0];
-  } catch (error) {
-    console.error('Error in getCategoryById:', error);
-    return null;
-  }
-}
+const getCategoryDetails = async (id) => {
+  const query = `
+    SELECT category_id, name
+    FROM category
+    WHERE category_id = $1;
+  `;
+  const result = await db.query(query, [id]);
+  return result.rows.length > 0 ? result.rows[0] : null;
+};
+
+export { getAllCategories, getCategoryDetails };

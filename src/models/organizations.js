@@ -1,17 +1,19 @@
-import db from '../database/index.js';
+import db from '../config/database.js';
 
-export async function getAllOrganizations() {
-  try {
-    const data = await db.query('SELECT * FROM organization ORDER BY organization_name ASC');
-    return data.rows.length ? data.rows : getStaticOrganizations();
-  } catch (error) {
-    return getStaticOrganizations();
-  }
-}
+const getAllOrganizations = async () => {
+  const query = `SELECT organization_id, name, contact_email, logo_filename FROM organization ORDER BY name;`;
+  const result = await db.query(query);
+  return result.rows;
+};
 
-function getStaticOrganizations() {
-  return [
-    { organization_id: 1, organization_name: 'Tech for Good' },
-    { organization_id: 2, organization_name: 'Green Earth Initiative' }
-  ];
-}
+const getOrganizationDetails = async (organizationId) => {
+  const query = `
+    SELECT organization_id, name, description, contact_email, logo_filename
+    FROM organization
+    WHERE organization_id = $1;
+  `;
+  const result = await db.query(query, [organizationId]);
+  return result.rows.length > 0 ? result.rows[0] : null;
+};
+
+export { getAllOrganizations, getOrganizationDetails };
