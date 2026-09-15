@@ -1,15 +1,17 @@
-import { 
-  getUpcomingProjects, 
-  getProjectDetails, 
-  getCategoriesByProjectId 
+import {
+  getUpcomingProjects,
+  getProjectDetails,
+  getCategoriesByProjectId
 } from '../models/projects.js';
-
-const NUMBER_OF_UPCOMING_PROJECTS = 5;
 
 const showProjectsPage = async (req, res, next) => {
   try {
-    const projects = await getUpcomingProjects(NUMBER_OF_UPCOMING_PROJECTS);
-    res.render('projects', { title: 'Upcoming Service Projects', projects });
+    const projects = await getUpcomingProjects(10);
+
+    res.render('projects', {
+      title: 'Upcoming Projects',
+      projects
+    });
   } catch (error) {
     next(error);
   }
@@ -17,17 +19,29 @@ const showProjectsPage = async (req, res, next) => {
 
 const showProjectDetailsPage = async (req, res, next) => {
   try {
-    const projectId = req.params.id;
+    const projectId = Number(req.params.id);
+
+    if (!Number.isInteger(projectId) || projectId <= 0) {
+      const error = new Error('Invalid project ID.');
+      error.status = 400;
+      return next(error);
+    }
+
     const project = await getProjectDetails(projectId);
 
     if (!project) {
-      const err = new Error('Service Project Not Found');
-      err.status = 404;
-      return next(err);
+      const error = new Error('Project not found.');
+      error.status = 404;
+      return next(error);
     }
 
     const categories = await getCategoriesByProjectId(projectId);
-    res.render('project', { title: project.title, project, categories });
+
+    res.render('project-detail', {
+      title: project.project_name,
+      project,
+      categories
+    });
   } catch (error) {
     next(error);
   }

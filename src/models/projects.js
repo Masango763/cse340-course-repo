@@ -49,7 +49,7 @@ const getProjectDetails = async (id) => {
 
 const getCategoriesByProjectId = async (projectId) => {
   const query = `
-    SELECT c.category_id, c.name
+    SELECT c.category_id, c.category_name
     FROM category c
     JOIN project p ON c.category_id = p.category_id
     WHERE p.project_id = $1;

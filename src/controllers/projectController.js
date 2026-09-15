@@ -1,26 +1,16 @@
-import { getAllProjects } from '../models/projects.js';
+import { getUpcomingProjects } from '../models/projects.js';
 
 export async function buildProjectsPage(req, res, next) {
   try {
-    const projects = await getAllProjects();
-
-    const formattedProjects = projects.map(project => ({
-      ...project,
-      formattedDate: new Date(project.date).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric'
-      })
-    }));
+    const projects = await getUpcomingProjects(10);
 
     res.render('projects', {
-      title: 'Service Projects',
-      projects: formattedProjects
+      title: 'Upcoming Projects',
+      projects
     });
   } catch (error) {
     next(error);
   }
 }
 
-// Alias export for static route compatibility
 export const buildProjects = buildProjectsPage;
