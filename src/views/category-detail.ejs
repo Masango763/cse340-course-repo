@@ -1,17 +1,27 @@
-<h2><%= category.name %></h2>
-
-<section class="projects-list">
-  <h3>Service Projects</h3>
-  <% if (projects && projects.length > 0) { %>
-    <ul>
-      <% projects.forEach(project => { %>
-        <li>
-          <a href="/project/<%= project.project_id %>"><%= project.project_name %></a>
-          - <%= project.location %>
-        </li>
-      <% }); %>
-    </ul>
-  <% } else { %>
-    <p>No service projects found for this category.</p>
-  <% } %>
-</section>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= title %></title>
+</head>
+<body>
+  <main>
+    <h2><%= category.name %></h2>
+    <section class="projects-list">
+      <h3>Service Projects</h3>
+      <% if (projects && projects.length > 0) { %>
+        <ul>
+          <% projects.forEach(project => { %>
+            <li>
+              <a href="/project/<%= project.project_id %>"><%= project.project_name %></a>
+              - <%= project.location %>
+            </li>
+          <% }); %>
+        </ul>
+      <% } else { %>
+        <p>No service projects found for this category.</p>
+      <% } %>
+    </section>
+  </main>
+</body>
+</html>
