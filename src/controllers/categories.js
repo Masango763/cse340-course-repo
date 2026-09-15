@@ -8,6 +8,7 @@ const showCategoriesPage = async (req, res, next) => {
       categories
     });
   } catch (error) {
+    console.error('Error in showCategoriesPage:', error);
     next(error);
   }
 };
@@ -18,9 +19,9 @@ const showCategoryDetailsPage = async (req, res, next) => {
     const category = await getCategoryById(categoryId);
 
     if (!category) {
-      const error = new Error('Category not found');
-      error.status = 404;
-      return next(error);
+      const err = new Error('Category not found');
+      err.status = 404;
+      return next(err);
     }
 
     const projects = await getProjectsByCategoryId(categoryId);
@@ -31,6 +32,7 @@ const showCategoryDetailsPage = async (req, res, next) => {
       projects
     });
   } catch (error) {
+    console.error('Error in showCategoryDetailsPage:', error);
     next(error);
   }
 };
