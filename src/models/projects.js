@@ -14,10 +14,13 @@ const getProjectsByOrganizationId = async (organizationId) => {
 const getUpcomingProjects = async (numberOfProjects) => {
   const query = `
     SELECT 
-      p.project_id, p.project_name, p.project_description, p.project_date, p.location,
-      p.organization_id, o.name AS organization_name
+      p.project_id, 
+      p.project_name, 
+      p.project_description, 
+      p.project_date, 
+      p.location,
+      p.organization_id
     FROM project p
-    JOIN organization o ON p.organization_id = o.organization_id
     WHERE p.project_date >= CURRENT_DATE
     ORDER BY p.project_date ASC
     LIMIT $1;
@@ -29,10 +32,13 @@ const getUpcomingProjects = async (numberOfProjects) => {
 const getProjectDetails = async (id) => {
   const query = `
     SELECT 
-      p.project_id, p.project_name, p.project_description, p.project_date, p.location,
-      p.organization_id, o.name AS organization_name
+      p.project_id, 
+      p.project_name, 
+      p.project_description, 
+      p.project_date, 
+      p.location,
+      p.organization_id
     FROM project p
-    JOIN organization o ON p.organization_id = o.organization_id
     WHERE p.project_id = $1;
   `;
   const result = await db.query(query, [id]);
@@ -54,11 +60,14 @@ const getCategoriesByProjectId = async (projectId) => {
 const getProjectsByCategoryId = async (categoryId) => {
   const query = `
     SELECT 
-      p.project_id, p.project_name, p.project_description, p.project_date, p.location,
-      p.organization_id, o.name AS organization_name
+      p.project_id, 
+      p.project_name, 
+      p.project_description, 
+      p.project_date, 
+      p.location,
+      p.organization_id
     FROM project p
     JOIN project_category pc ON p.project_id = pc.project_id
-    JOIN organization o ON p.organization_id = o.organization_id
     WHERE pc.category_id = $1
     ORDER BY p.project_date ASC;
   `;
