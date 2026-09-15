@@ -2,7 +2,7 @@ import db from '../config/database.js';
 
 const getProjectsByOrganizationId = async (organizationId) => {
   const query = `
-    SELECT project_id, organization_id, name AS title, description, location, date
+    SELECT project_id, organization_id, title, description, location, date
     FROM project
     WHERE organization_id = $1
     ORDER BY date;
@@ -14,7 +14,7 @@ const getProjectsByOrganizationId = async (organizationId) => {
 const getUpcomingProjects = async (numberOfProjects) => {
   const query = `
     SELECT 
-      p.project_id, p.name AS title, p.description, p.date, p.location,
+      p.project_id, p.title, p.description, p.date, p.location,
       p.organization_id, o.name AS organization_name
     FROM project p
     JOIN organization o ON p.organization_id = o.organization_id
@@ -29,7 +29,7 @@ const getUpcomingProjects = async (numberOfProjects) => {
 const getProjectDetails = async (id) => {
   const query = `
     SELECT 
-      p.project_id, p.name AS title, p.description, p.date, p.location,
+      p.project_id, p.title, p.description, p.date, p.location,
       p.organization_id, o.name AS organization_name
     FROM project p
     JOIN organization o ON p.organization_id = o.organization_id
@@ -54,7 +54,7 @@ const getCategoriesByProjectId = async (projectId) => {
 const getProjectsByCategoryId = async (categoryId) => {
   const query = `
     SELECT 
-      p.project_id, p.name AS title, p.description, p.date, p.location,
+      p.project_id, p.title, p.description, p.date, p.location,
       p.organization_id, o.name AS organization_name
     FROM project p
     JOIN project_category pc ON p.project_id = pc.project_id
