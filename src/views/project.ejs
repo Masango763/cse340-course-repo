@@ -1,4 +1,4 @@
-<%- include('partials/header') %>
+<%- include('./partials/header') %>
 
 <h2><%= project.project_name %></h2>
 <p><strong>Date:</strong> <%= new Date(project.project_date).toLocaleDateString() %></p>
@@ -23,4 +23,4 @@
   <% } %>
 </div>
 
-<%- include('partials/footer') %>
+<%- include('./partials/footer') %>
