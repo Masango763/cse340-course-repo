@@ -2,7 +2,7 @@ import db from '../config/database.js';
 
 const getProjectsByOrganizationId = async (organizationId) => {
   const query = `
-    SELECT project_id, organization_id, project_name, project_description, location, project_date
+    SELECT project_id, organization_id, project_name, project_description, location, project_date, category_id
     FROM project
     WHERE organization_id = $1
     ORDER BY project_date;
@@ -19,7 +19,8 @@ const getUpcomingProjects = async (numberOfProjects) => {
       p.project_description, 
       p.project_date, 
       p.location,
-      p.organization_id
+      p.organization_id,
+      p.category_id
     FROM project p
     WHERE p.project_date >= CURRENT_DATE
     ORDER BY p.project_date ASC
@@ -37,7 +38,8 @@ const getProjectDetails = async (id) => {
       p.project_description, 
       p.project_date, 
       p.location,
-      p.organization_id
+      p.organization_id,
+      p.category_id
     FROM project p
     WHERE p.project_id = $1;
   `;
@@ -49,9 +51,8 @@ const getCategoriesByProjectId = async (projectId) => {
   const query = `
     SELECT c.category_id, c.name
     FROM category c
-    JOIN project_category pc ON c.category_id = pc.category_id
-    WHERE pc.project_id = $1
-    ORDER BY c.name;
+    JOIN project p ON c.category_id = p.category_id
+    WHERE p.project_id = $1;
   `;
   const result = await db.query(query, [projectId]);
   return result.rows;
@@ -65,10 +66,10 @@ const getProjectsByCategoryId = async (categoryId) => {
       p.project_description, 
       p.project_date, 
       p.location,
-      p.organization_id
+      p.organization_id,
+      p.category_id
     FROM project p
-    JOIN project_category pc ON p.project_id = pc.project_id
-    WHERE pc.category_id = $1
+    WHERE p.category_id = $1
     ORDER BY p.project_date ASC;
   `;
   const result = await db.query(query, [categoryId]);
