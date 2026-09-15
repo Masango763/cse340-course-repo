@@ -1,36 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title><%= title %></title>
-  <link rel="stylesheet" href="/css/style.css">
-</head>
-<body>
-  <header style="background-color: #1d4ed8; color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-    <h1 style="margin: 0; font-size: 1.5rem;">CSE 340 Service Hub</h1>
-    <nav>
-      <a href="/projects" style="color: white; margin-left: 1.5rem; text-decoration: none; font-weight: bold;">Home</a>
-      <a href="/organizations" style="color: white; margin-left: 1.5rem; text-decoration: none; font-weight: bold;">Organizations</a>
-      <a href="/projects" style="color: white; margin-left: 1.5rem; text-decoration: none; font-weight: bold;">Projects</a>
-      <a href="/categories" style="color: white; margin-left: 1.5rem; text-decoration: none; font-weight: bold;">Categories</a>
-    </nav>
-  </header>
-  <main style="padding: 0 2rem;">
-    <h2><%= title %></h2>
-    <% if (projects && projects.length > 0) { %>
-      <ul style="list-style: none; padding: 0;">
-        <% projects.forEach(project => { %>
-          <li style="margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid #e5e7eb;">
-            <strong><%= new Date(project.date).toLocaleDateString() %>:</strong> 
-            <a href="/project/<%= project.project_id %>"><%= project.title %></a> 
-            (<a href="/organization/<%= project.organization_id %>"><%= project.organization_name %></a>)<br>
-            <span><%= project.description %></span> — <em><%= project.location %></em>
-          </li>
-        <% }); %>
-      </ul>
-    <% } else { %>
-      <p>No upcoming projects found.</p>
-    <% } %>
-  </main>
-</body>
-</html>
+<%- include('partials/header') %>
+
+<h2><%= title %></h2>
+
+<% if (projects && projects.length > 0) { %>
+  <ul class="project-list">
+    <% projects.forEach(project => { %>
+      <li class="project-item">
+        <strong><%= new Date(project.date).toLocaleDateString() %>:</strong> 
+        <a href="/project/<%= project.project_id %>"><%= project.title %></a> 
+        (<a href="/organization/<%= project.organization_id %>"><%= project.organization_name %></a>)<br>
+        <p><%= project.description %></p>
+        <span>Location: <%= project.location %></span>
+      </li>
+    <% }); %>
+  </ul>
+<% } else { %>
+  <p>No upcoming projects found.</p>
+<% } %>
+
+<%- include('partials/footer') %>
