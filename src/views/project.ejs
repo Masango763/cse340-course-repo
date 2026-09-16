@@ -1,26 +1,48 @@
-<%- include('./partials/header') %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body style="margin: 0; font-family: Arial, sans-serif; background-color: #ffffff; color: #111827;">
+  <header style="background-color: #1d4ed8; color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;">
+    <h1 style="margin: 0; font-size: 1.5rem;"><a href="/projects" style="color: white; text-decoration: none;">CSE 340 Service Hub</a></h1>
+    <nav style="word-spacing: 1rem;">
+      <a href="/projects" style="color: white; text-decoration: none; font-weight: 500;">Home</a>
+      <a href="/organizations" style="color: white; text-decoration: none; font-weight: 500;">Organizations</a>
+      <a href="/projects" style="color: white; text-decoration: none; font-weight: 500;">Projects</a>
+      <a href="/categories" style="color: white; text-decoration: none; font-weight: 500;">Categories</a>
+    </nav>
+  </header>
+  
+  <main style="padding: 2rem; min-height: 60vh;">
+    <h2><%= project.project_name %></h2>
+    <p><strong>Date:</strong> <%= new Date(project.project_date).toLocaleDateString() %></p>
+    <p><strong>Location:</strong> <%= project.location %></p>
+    <p><strong>Partner Organization:</strong> <a href="/organization/<%= project.organization_id %>"><%= project.organization_name %></a></p>
 
-<h2><%= project.project_name %></h2>
-<p><strong>Date:</strong> <%= new Date(project.project_date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %></p>
-<p><strong>Location:</strong> <%= project.location %></p>
-<p><strong>Partner Organization:</strong> <a href="/organization/<%= project.organization_id %>"><%= project.organization_name %></a></p>
+    <div class="project-description" style="margin-top: 1.5rem;">
+      <h3>Description</h3>
+      <p><%= project.project_description %></p>
+    </div>
 
-<div class="project-description">
-  <h3>Description</h3>
-  <p><%= project.project_description %></p>
-</div>
+    <div class="category-tags" style="margin-top: 1.5rem;">
+      <h3>Categories</h3>
+      <% if (categories && categories.length > 0) { %>
+        <ul style="display: flex; gap: 1rem; list-style: none; padding: 0;">
+          <% categories.forEach(category => { %>
+            <li><a href="/category/<%= category.category_id %>" style="background: #e2e8f0; padding: 0.25rem 0.75rem; border-radius: 4px; text-decoration: none; color: #1e293b;"><%= category.name %></a></li>
+          <% }); %>
+        </ul>
+      <% } else { %>
+        <p>No categories assigned.</p>
+      <% } %>
+    </div>
+  </main>
 
-<div class="category-tags">
-  <h3>Categories</h3>
-  <% if (categories && categories.length > 0) { %>
-    <ul class="tags-list">
-      <% categories.forEach(category => { %>
-        <li><a href="/category/<%= category.category_id %>" class="tag"><%= category.name %></a></li>
-      <% }); %>
-    </ul>
-  <% } else { %>
-    <p>No categories assigned.</p>
-  <% } %>
-</div>
-
-<%- include('./partials/footer') %>
+  <footer style="border-top: 1px solid #e5e7eb; padding: 1.5rem 2rem; text-align: left; color: #4b5563; font-size: 0.9rem;">
+    &copy; 2026 CSE 340 Web Backend Development
+  </footer>
+</body>
+</html>
