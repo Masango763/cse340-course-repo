@@ -19,12 +19,15 @@
   <main style="padding: 2rem; min-height: 60vh;">
     <h2>Upcoming Service Projects</h2>
     <% if (projects && projects.length > 0) { %>
-      <ul style="line-height: 1.8rem; padding-left: 1.5rem;">
+      <ul style="line-height: 2rem; padding-left: 1.5rem;">
         <% projects.forEach(project => { %>
           <li style="margin-bottom: 1rem;">
-            <strong><%= new Date(project.date).toLocaleDateString() %>:</strong> 
-            <a href="/project/<%= project.project_id %>"><%= project.title %></a> 
-            (<a href="/organization/<%= project.organization_id %>"><%= project.organization_name %></a>)<br>
+            <strong><%= new Date(project.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %>:</strong> 
+            <a href="/project/<%= project.project_id %>"><%= project.title %></a>
+            <% if (project.organization_name) { %>
+              (<a href="/organization/<%= project.organization_id %>"><%= project.organization_name %></a>)
+            <% } %>
+            <br>
             <span><%= project.description %></span> — <em><%= project.location %></em>
           </li>
         <% }); %>
