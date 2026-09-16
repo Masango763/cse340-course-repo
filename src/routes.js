@@ -6,6 +6,7 @@ import { showCategoriesPage, showCategoryDetailsPage } from './controllers/categ
 const router = express.Router();
 
 router.get('/', showProjectsPage);
+router.get('/home', showProjectsPage);
 router.get('/projects', showProjectsPage);
 router.get('/project/:id', showProjectDetailsPage);
 
