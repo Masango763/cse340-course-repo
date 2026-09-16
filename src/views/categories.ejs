@@ -1,38 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title><%= title %></title>
-  <link rel="stylesheet" href="/css/style.css">
-</head>
-<body style="margin: 0; font-family: Arial, sans-serif; background-color: #ffffff; color: #111827;">
-  <header style="background-color: #1d4ed8; color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;">
-    <h1 style="margin: 0; font-size: 1.5rem;"><a href="/projects" style="color: white; text-decoration: none;">CSE 340 Service Hub</a></h1>
-    <nav style="word-spacing: 1rem;">
-      <a href="/projects" style="color: white; text-decoration: none; font-weight: 500;">Home</a>
-      <a href="/organizations" style="color: white; text-decoration: none; font-weight: 500;">Organizations</a>
-      <a href="/projects" style="color: white; text-decoration: none; font-weight: 500;">Projects</a>
-      <a href="/categories" style="color: white; text-decoration: none; font-weight: 500;">Categories</a>
-    </nav>
-  </header>
-  
-  <main style="padding: 2rem; min-height: 60vh;">
-    <h2>All Categories</h2>
-    <% if (categories && categories.length > 0) { %>
-      <ul style="line-height: 2rem;">
-        <% categories.forEach(category => { %>
-          <li>
-            <a href="/category/<%= category.category_id %>"><%= category.name %></a>
-          </li>
-        <% }); %>
-      </ul>
-    <% } else { %>
-      <p>No categories found.</p>
-    <% } %>
-  </main>
-
-  <footer style="border-top: 1px solid #e5e7eb; padding: 1.5rem 2rem; text-align: left; color: #4b5563; font-size: 0.9rem;">
-    &copy; 2026 CSE 340 Web Backend Development
-  </footer>
-</body>
-</html>
+<%- include('./partials/header') %>
+<h2>All Categories</h2>
+<% if (categories && categories.length > 0) { %>
+  <ul style="line-height: 2rem;">
+    <% categories.forEach(category => { %>
+      <li>
+        <a href="/category/<%= category.category_id %>"><%= category.name %></a>
+      </li>
+    <% }); %>
+  </ul>
+<% } else { %>
+  <p>No categories found.</p>
+<% } %>
+<%- include('./partials/footer') %>
