@@ -5,21 +5,21 @@ const getAllCategories = async () => {
   return result.rows;
 };
 
-const getCategoryById = async (categoryId) => {
-  const result = await pool.query('SELECT category_id, name FROM categories WHERE category_id = $1', [categoryId]);
-  return result.rows[0];
-};
-
-const getProjectsByCategoryId = async (categoryId) => {
-  const query = `
-    SELECT p.project_id, p.title AS project_name, p.date, p.location, p.description
+const getCategoryDetails = async (categoryId) => {
+  const catResult = await pool.query('SELECT category_id, name FROM categories WHERE category_id = $1', [categoryId]);
+  const projResult = await pool.query(`
+    SELECT p.project_id, p.title, p.description, p.date, p.location, 
+           o.organization_id, o.name AS organization_name
     FROM projects p
     JOIN project_categories pc ON p.project_id = pc.project_id
+    JOIN organizations o ON p.organization_id = o.organization_id
     WHERE pc.category_id = $1
     ORDER BY p.date ASC;
-  `;
-  const result = await pool.query(query, [categoryId]);
-  return result.rows;
+  `, [categoryId]);
+  return {
+    category: catResult.rows[0],
+    projects: projResult.rows
+  };
 };
 
-export { getAllCategories, getCategoryById, getProjectsByCategoryId };
+export { getAllCategories, getCategoryDetails };
