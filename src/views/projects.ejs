@@ -1,20 +1,16 @@
 <%- include('./partials/header') %>
 <h2>Upcoming Service Projects</h2>
 <% if (projects && projects.length > 0) { %>
-  <ul style="line-height: 2rem; padding-left: 1.5rem;">
+  <ul>
     <% projects.forEach(project => { %>
-      <li style="margin-bottom: 1rem;">
-        <strong><%= new Date(project.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %>:</strong> 
-        <a href="/project/<%= project.project_id %>"><%= project.title %></a>
-        <% if (project.organization_name) { %>
-          (<a href="/organization/<%= project.organization_id %>"><%= project.organization_name %></a>)
-        <% } %>
-        <br>
-        <span><%= project.description %></span> — <em><%= project.location %></em>
+      <li>
+        <a href="/project/<%= project.project_id %>"><%= project.title %></a> - 
+        Organization: <a href="/organization/<%= project.organization_id %>"><%= project.organization_name %></a> 
+        (<%= new Date(project.date).toLocaleDateString() %>)
       </li>
     <% }); %>
   </ul>
 <% } else { %>
-  <p>No upcoming projects found.</p>
+  <p>No upcoming service projects found.</p>
 <% } %>
 <%- include('./partials/footer') %>

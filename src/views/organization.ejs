@@ -1,6 +1,9 @@
 <%- include('./partials/header') %>
-<h2>Category: <%= category.name %></h2>
-<h3>Service Projects in this Category</h3>
+<h2><%= organization.organization_name %></h2>
+<p><strong>Location:</strong> <%= organization.location %></p>
+<p><strong>Contact Email:</strong> <%= organization.contact_email %></p>
+<p><%= organization.description %></p>
+<h3>Service Projects</h3>
 <% if (projects && projects.length > 0) { %>
   <ul>
     <% projects.forEach(project => { %>
@@ -8,6 +11,6 @@
     <% }); %>
   </ul>
 <% } else { %>
-  <p>No projects found in this category.</p>
+  <p>No projects listed for this organization.</p>
 <% } %>
 <%- include('./partials/footer') %>

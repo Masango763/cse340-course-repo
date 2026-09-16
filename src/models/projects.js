@@ -1,6 +1,5 @@
 import pool from '../database/db.js';
 
-// Get upcoming projects with organization details
 const getUpcomingProjects = async (limit = 5) => {
   const query = `
     SELECT p.project_id, p.title, p.description, p.date, p.location, 
@@ -14,7 +13,6 @@ const getUpcomingProjects = async (limit = 5) => {
   return result.rows;
 };
 
-// Get single project details with organization details
 const getProjectDetails = async (projectId) => {
   const query = `
     SELECT p.project_id, p.title AS project_name, p.description AS project_description, 
@@ -28,7 +26,6 @@ const getProjectDetails = async (projectId) => {
   return result.rows[0];
 };
 
-// Get all categories associated with a project ID
 const getCategoriesByProjectId = async (projectId) => {
   const query = `
     SELECT c.category_id, c.name
