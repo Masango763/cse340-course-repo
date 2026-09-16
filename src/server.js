@@ -3,6 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import router from './routes.js';
+import pool from './database/db.js';
 
 dotenv.config();
 
@@ -26,11 +27,20 @@ app.use((req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-  console.error(err.stack);
+  console.error('Server Error Stack:', err.stack);
   res.status(err.status || 500).render('500', { 
-    title: 'Error', 
+    title: 'Internal Server Error', 
     message: err.message 
   });
+});
+
+// Test database connection on startup
+pool.query('SELECT NOW()', (err, res) => {
+  if (err) {
+    console.error('Database connection failed:', err);
+  } else {
+    console.log('Database connected successfully at:', res.rows[0].now);
+  }
 });
 
 app.listen(PORT, () => {
