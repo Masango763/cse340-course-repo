@@ -1,10 +1,11 @@
-import { getCategories, getCategoryById, getProjectsByCategoryId } from '../models/categories.js';
+import { getAllCategories, getCategoryById, getProjectsByCategoryId } from '../models/categories.js';
 
+// Show main categories list page (/categories)
 const showCategoriesPage = async (req, res, next) => {
   try {
-    const categories = await getCategories();
+    const categories = await getAllCategories();
     res.render('categories', {
-      title: 'Categories',
+      title: 'Service Categories',
       categories
     });
   } catch (error) {
@@ -13,6 +14,7 @@ const showCategoriesPage = async (req, res, next) => {
   }
 };
 
+// Show category details page with associated projects (/category/[id])
 const showCategoryDetailsPage = async (req, res, next) => {
   try {
     const categoryId = req.params.id;
@@ -27,7 +29,7 @@ const showCategoryDetailsPage = async (req, res, next) => {
     const projects = await getProjectsByCategoryId(categoryId);
 
     res.render('category-detail', {
-      title: `${category.name} Projects`,
+      title: category.name,
       category,
       projects
     });

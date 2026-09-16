@@ -1,43 +1,28 @@
-import db from '../config/database.js';
+import pool from '../database/db.js';
 
-// Retrieve all categories
-const getCategories = async () => {
-  const query = `
-    SELECT category_id, name 
-    FROM category 
-    ORDER BY name ASC;
-  `;
-  const result = await db.query(query);
+// Get all categories
+const getAllCategories = async () => {
+  const result = await pool.query('SELECT category_id, name FROM categories ORDER BY name ASC');
   return result.rows;
 };
 
-// Retrieve a single category by its ID
+// Get a single category by ID
 const getCategoryById = async (categoryId) => {
-  const query = `
-    SELECT category_id, name 
-    FROM category 
-    WHERE category_id = $1;
-  `;
-  const result = await db.query(query, [categoryId]);
-  return result.rows.length > 0 ? result.rows[0] : null;
+  const result = await pool.query('SELECT category_id, name FROM categories WHERE category_id = $1', [categoryId]);
+  return result.rows[0];
 };
 
-// Retrieve all service projects for a given category
+// Get all service projects belonging to a specific category
 const getProjectsByCategoryId = async (categoryId) => {
   const query = `
-    SELECT 
-      p.project_id, 
-      p.project_name, 
-      p.project_description, 
-      p.project_date, 
-      p.location,
-      p.organization_id
-    FROM project p
-    WHERE p.category_id = $1
-    ORDER BY p.project_date ASC;
+    SELECT p.project_id, p.title AS project_name, p.date, p.location, p.description
+    FROM projects p
+    JOIN project_categories pc ON p.project_id = pc.project_id
+    WHERE pc.category_id = $1
+    ORDER BY p.date ASC;
   `;
-  const result = await db.query(query, [categoryId]);
+  const result = await pool.query(query, [categoryId]);
   return result.rows;
 };
 
-export { getCategories, getCategoryById, getProjectsByCategoryId };
+export { getAllCategories, getCategoryById, getProjectsByCategoryId };

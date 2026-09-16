@@ -1,54 +1,43 @@
-import db from '../config/database.js';
+import pool from '../database/db.js';
 
-// Retrieve upcoming projects
-const getUpcomingProjects = async (limit) => {
+// Get upcoming projects with organization details
+const getUpcomingProjects = async (limit = 5) => {
   const query = `
-    SELECT 
-      p.project_id, 
-      p.project_name AS title, 
-      p.project_description AS description, 
-      p.project_date AS date, 
-      p.location, 
-      p.organization_id,
-      o.organization_name
-    FROM project p
-    JOIN organization o ON p.organization_id = o.organization_id
-    WHERE p.project_date >= NOW()
-    ORDER BY p.project_date ASC
+    SELECT p.project_id, p.title, p.description, p.date, p.location, 
+           o.organization_id, o.organization_name
+    FROM projects p
+    JOIN organizations o ON p.organization_id = o.organization_id
+    ORDER BY p.date ASC
     LIMIT $1;
   `;
-  const result = await db.query(query, [limit]);
+  const result = await pool.query(query, [limit]);
   return result.rows;
 };
 
-// Retrieve a single project by ID
+// Get single project details with organization details
 const getProjectDetails = async (projectId) => {
   const query = `
-    SELECT 
-      p.project_id, 
-      p.project_name, 
-      p.project_description, 
-      p.project_date, 
-      p.location, 
-      p.organization_id,
-      o.organization_name
-    FROM project p
-    JOIN organization o ON p.organization_id = o.organization_id
+    SELECT p.project_id, p.title AS project_name, p.description AS project_description, 
+           p.date AS project_date, p.location, 
+           o.organization_id, o.organization_name
+    FROM projects p
+    JOIN organizations o ON p.organization_id = o.organization_id
     WHERE p.project_id = $1;
   `;
-  const result = await db.query(query, [projectId]);
-  return result.rows.length > 0 ? result.rows[0] : null;
+  const result = await pool.query(query, [projectId]);
+  return result.rows[0];
 };
 
-// Retrieve categories for a project
+// Get all categories associated with a project ID
 const getCategoriesByProjectId = async (projectId) => {
   const query = `
     SELECT c.category_id, c.name
-    FROM category c
-    JOIN project p ON c.category_id = p.category_id
-    WHERE p.project_id = $1;
+    FROM categories c
+    JOIN project_categories pc ON c.category_id = pc.category_id
+    WHERE pc.project_id = $1
+    ORDER BY c.name ASC;
   `;
-  const result = await db.query(query, [projectId]);
+  const result = await pool.query(query, [projectId]);
   return result.rows;
 };
 

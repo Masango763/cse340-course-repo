@@ -1,7 +1,9 @@
 <%- include('./partials/header') %>
-<h2>All Categories</h2>
+
+<h2>Service Categories</h2>
+
 <% if (categories && categories.length > 0) { %>
-  <ul style="line-height: 2rem;">
+  <ul>
     <% categories.forEach(category => { %>
       <li>
         <a href="/category/<%= category.category_id %>"><%= category.name %></a>
@@ -11,4 +13,5 @@
 <% } else { %>
   <p>No categories found.</p>
 <% } %>
+
 <%- include('./partials/footer') %>
