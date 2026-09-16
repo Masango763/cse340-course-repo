@@ -1,10 +1,7 @@
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import dotenv from 'dotenv';
 import router from './routes.js';
-
-dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -24,18 +21,15 @@ app.use(express.static(path.join(__dirname, '../public')));
 // Routes
 app.use('/', router);
 
-// 404 Handler
+// 404 Error Handler
 app.use((req, res, next) => {
-  res.status(404).render('404', { title: 'Page Not Found' });
+  res.status(404).render('404', { title: '404 - Page Not Found' });
 });
 
 // 500 Error Handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(err.status || 500).render('500', { 
-    title: 'Error', 
-    message: err.message 
-  });
+  res.status(500).render('500', { title: '500 - Internal Server Error' });
 });
 
 app.listen(PORT, () => {
