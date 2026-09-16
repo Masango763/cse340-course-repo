@@ -2,8 +2,14 @@ import pool from '../database/db.js';
 
 // Get all categories
 const getAllCategories = async () => {
-  const result = await pool.query('SELECT category_id, name FROM categories ORDER BY name ASC');
-  return result.rows;
+  try {
+    const result = await pool.query('SELECT category_id, name FROM categories ORDER BY name ASC');
+    console.log('Fetched Categories from DB:', result.rows);
+    return result.rows;
+  } catch (error) {
+    console.error('Database Error in getAllCategories:', error);
+    throw error;
+  }
 };
 
 // Get a single category by ID
