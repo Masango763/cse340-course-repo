@@ -4,7 +4,7 @@
   <ul>
     <% organizations.forEach(org => { %>
       <li>
-        <img src="/images/placeholder.jpg" alt="<%= org.organization_name %>" width="50" style="vertical-align: middle; margin-right: 10px;" />
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAATklEQVQ4jWNgGAWDEv7//88AxkaG/4z8/w8xMvD///+fASWvX7/+P904hL5h4D//nwH8n5GBgYGBicGfAYhZgYGBoZgDA9lGEgAAU3YV5N8i1b0AAAAASUVORK5CYII=" alt="<%= org.organization_name %>" width="24" height="24" style="vertical-align: middle; margin-right: 8px; border-radius: 4px;" />
         <a href="/organization/<%= org.organization_id %>"><%= org.organization_name %></a> - <%= org.location %>
       </li>
     <% }); %>
