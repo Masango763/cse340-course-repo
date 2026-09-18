@@ -1,38 +1,37 @@
-import express from 'express';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import dotenv from 'dotenv';
-import staticRoutes from './routes/static.js';
-import { getNav } from './utilities/index.js';
-
-dotenv.config();
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
+const path = require('path');
+const express = require('express');
 const app = express();
-const PORT = process.env.PORT || 3000;
 
+// Require the database connection from the src folder
+const db = require('./src/util/database');
+
+// Middleware to parse request bodies
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+// Serve static files from the 'public' folder
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Set EJS as templating engine and set views directory
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'src', 'views'));
 
-app.use(getNav);
-app.use('/', staticRoutes);
+// Import and use application routes
+const routes = require('./src/routes');
+app.use(routes);
 
-app.use((req, res) => {
-  res.status(404).render('404', { title: '404 - Page Not Found' });
+// Error Handling (404 and 500 pages)
+app.use((req, res, next) => {
+    res.status(404).render('errors/404', { title: 'Page Not Found' });
 });
 
 app.use((err, req, res, next) => {
-  console.error(err.stack || err);
-  res.status(err.status || 500).render('error', {
-    title: '500 - Server Error',
-    message: err.message || 'Server error occurred.'
-  });
+    console.error(err.stack);
+    res.status(500).render('errors/500', { title: 'Server Error' });
 });
 
+// Start the server
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+    console.log(`Server is running on port ${PORT}`);
 });
