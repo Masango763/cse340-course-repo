@@ -3,7 +3,10 @@
 <% if (organizations && organizations.length > 0) { %>
   <ul>
     <% organizations.forEach(org => { %>
-      <li><a href="/organization/<%= org.organization_id %>"><%= org.organization_name %></a> - <%= org.location %></li>
+      <li>
+        <img src="/images/placeholder.jpg" alt="<%= org.organization_name %>" width="50" style="vertical-align: middle; margin-right: 10px;" />
+        <a href="/organization/<%= org.organization_id %>"><%= org.organization_name %></a> - <%= org.location %>
+      </li>
     <% }); %>
   </ul>
 <% } else { %>
