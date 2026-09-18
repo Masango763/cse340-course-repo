@@ -1,9 +1,18 @@
 <%- include('partials/header') %>
+<%
+  const categoryImages = {
+    'Software Engineering': '/images/cat1.jpg',
+    'Digital Literacy': '/images/cat2.jpg',
+    'Community Tech': '/images/cat3.jpg',
+    'Open Source': '/images/cat4.jpg'
+  };
+%>
 <h2>Service Categories</h2>
 <% if (categories && categories.length > 0) { %>
-  <ul>
+  <ul style="list-style: none; padding: 0;">
     <% categories.forEach(category => { %>
-      <li>
+      <li style="display: flex; align-items: center; margin-bottom: 12px;">
+        <img src="<%= categoryImages[category.name] || '/images/placeholder.jpg' %>" alt="<%= category.name %>" width="48" height="32" style="object-fit: cover; margin-right: 10px; border-radius: 4px;" />
         <a href="/category/<%= category.category_id %>"><%= category.name %></a>
       </li>
     <% }) %>
