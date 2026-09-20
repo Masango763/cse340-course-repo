@@ -1,25 +1,50 @@
-import pool from '../database/db.js';
+import db from '../database/db.js';
 
 const getAllCategories = async () => {
-  const result = await pool.query('SELECT category_id, name FROM categories ORDER BY name ASC');
-  return result.rows;
+    const query = 'SELECT category_id, name FROM category ORDER BY name';
+    const result = await db.query(query);
+    return result.rows;
 };
 
 const getCategoryDetails = async (categoryId) => {
-  const catResult = await pool.query('SELECT category_id, name FROM categories WHERE category_id = $1', [categoryId]);
-  const projResult = await pool.query(`
-    SELECT p.project_id, p.title, p.description, p.date, p.location, 
-           o.organization_id, o.name AS organization_name
-    FROM projects p
-    JOIN project_categories pc ON p.project_id = pc.project_id
-    JOIN organizations o ON p.organization_id = o.organization_id
-    WHERE pc.category_id = $1
-    ORDER BY p.date ASC;
-  `, [categoryId]);
-  return {
-    category: catResult.rows[0],
-    projects: projResult.rows
-  };
+    const query = 'SELECT category_id, name FROM category WHERE category_id = $1';
+    const result = await db.query(query, [categoryId]);
+    if (result.rows.length === 0) {
+        throw new Error('Category not found');
+    }
+    return result.rows[0];
 };
 
-export { getAllCategories, getCategoryDetails };
+const createCategory = async (name) => {
+    const query = `
+        INSERT INTO category (name)
+        VALUES ($1)
+        RETURNING category_id;
+    `;
+    const result = await db.query(query, [name]);
+    if (result.rows.length === 0) {
+        throw new Error('Failed to create category');
+    }
+    return result.rows[0].category_id;
+};
+
+const updateCategory = async (categoryId, name) => {
+    const query = `
+        UPDATE category
+        SET name = $1
+        WHERE category_id = $2
+        RETURNING category_id;
+    `;
+    const result = await db.query(query, [name, categoryId]);
+    if (result.rows.length === 0) {
+        throw new Error('Category not found');
+    }
+    return result.rows[0].category_id;
+};
+
+export {
+    getAllCategories,
+    getCategoryDetails,
+    createCategory,
+    updateCategory
+};

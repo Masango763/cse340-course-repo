@@ -1,17 +1,7 @@
 <%- include('partials/header') %>
-<h2>Category: <%= category.name %></h2>
-<h3>Projects in this Category</h3>
-<% if (projects && projects.length > 0) { %>
-  <ul>
-    <% projects.forEach(project => { %>
-      <li>
-        <a href="/project/<%= project.project_id %>"><%= project.title %></a> - 
-        Organization: <a href="/organization/<%= project.organization_id %>"><%= project.organization_name %></a> 
-        (<%= new Date(project.date).toLocaleDateString() %>)
-      </li>
-    <% }) %>
-  </ul>
-<% } else { %>
-  <p>No projects found for this category.</p>
-<% } %>
+<main>
+    <h1><%= category.name %></h1>
+    <p><a href="/edit-category/<%= category.category_id %>">Edit Category</a></p>
+    <p><a href="/categories">Back to Categories</a></p>
+</main>
 <%- include('partials/footer') %>
