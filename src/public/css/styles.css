@@ -1,0 +1,104 @@
+/* Global styling and professional background setup */
+body {
+  background-color: #f4f6f9;
+  background-image: linear-gradient(135deg, #f4f6f9 0%, #e9edf2 100%);
+  color: #333;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+/* Header with a clean professional background accent */
+header {
+  background: #ffffff;
+  border-bottom: 1px solid #dcdfe6;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+  padding: 20px 40px;
+  max-width: 100%;
+}
+
+header h1 a {
+  color: #4a154b;
+  text-decoration: none;
+}
+
+nav {
+  margin-top: 10px;
+}
+
+nav a {
+  margin-right: 20px;
+  color: #555;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+nav a:hover {
+  color: #4a154b;
+  text-decoration: underline;
+}
+
+/* Main content wrapper */
+main {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Remove default list bullets */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Clean row/card layout for list items */
+ul li {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+  padding: 12px 15px;
+  border: 1px solid #e5e9f0;
+  border-radius: 8px;
+  background: #fafbfc;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+ul li:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  background: #ffffff;
+}
+
+/* Uniform list thumbnails */
+ul li img {
+  width: 70px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #e1e4e8;
+}
+
+/* Link formatting inside cards */
+ul li a {
+  font-weight: 600;
+  text-decoration: none;
+  color: #1a0dab;
+}
+
+ul li a:hover {
+  text-decoration: underline;
+}
+
+/* Footer styling */
+footer {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+  font-size: 0.9rem;
+}
