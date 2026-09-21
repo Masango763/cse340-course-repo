@@ -1,0 +1,81 @@
+W04 Coaching Session: Inserting and Updating Data
+1. Handling Form Submissions
+Handling form submissions correctly relies on Express body-parsing middleware (express.urlencoded) to parse incoming POST requests and populate req.body. In the controller, we extract these fields and pass them directly into our asynchronous model functions to interact with the PostgreSQL database.
+
+Relevant Code Snippet (Controller):
+
+async function processEditProjectForm(req, res) {
+    try {
+        const projectId = req.params.id;
+        const { name, description, due_date, organization_id } = req.body;
+        
+        await projectModel.updateProject(projectId, name, description, due_date, organization_id);
+        
+        res.redirect(`/projects/${projectId}`);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error updating the project.');
+    }
+}
+
+
+2. Forms for Updates
+Forms designed for updating existing entities must be pre-populated with current database values so the user can see what they are editing. In EJS templates, this is handled by binding the value attributes of inputs and textareas to the fetched object, as well as evaluating dropdown options dynamically to set the selected attribute.
+
+Relevant Code Snippet (EJS View):
+
+<form action="/edit-project/<%= project.id %>" method="POST">
+    <div class="form-group">
+        <label for="name">Project Name:</label>
+        <input type="text" id="name" name="name" value="<%= project.name %>" required>
+    </div>
+
+    <div class="form-group">
+        <label for="organization_id">Organization:</label>
+        <select id="organization_id" name="organization_id" required>
+            <% organizations.forEach(org => { %>
+                <option value="<%= org.id %>" <%= org.id === project.organization_id ? 'selected' : '' %>>
+                    <%= org.name %>
+                </option>
+            <% }) %>
+        </select>
+    </div>
+    <button type="submit" class="btn">Update Project</button>
+</form>
+
+
+3. Sessions and Flash Messages
+Sessions allow web applications to maintain user-specific state across multiple stateless HTTP requests. Flash messages leverage this session storage to display temporary notifications (such as success or error prompts) to the user exactly once. Once the notification is rendered on the page view, it is cleared from the session so it does not persist across future navigation.
+
+Relevant Code Snippet (Controller Flash Handling):
+
+
+// Example pattern for handling flash messaging and redirects
+async function processCreateCategory(req, res) {
+    try {
+        await categoryModel.createCategory(req.body.name);
+        req.flash('successMessage', 'Category created successfully!');
+        res.redirect('/categories');
+    } catch (error) {
+        req.flash('errorMessage', 'Failed to create category.');
+        res.redirect('/new-category');
+    }
+}
+
+4. Validation
+Input validation must be enforced on both the client and server sides. While client-side validation provides a smooth user experience, it can easily be bypassed by a malicious user or disabled browser JavaScript. Therefore, server-side validation using libraries like express-validator is crucial to guarantee data integrity, safety against malformed input, and proper rule enforcement (such as minimum and maximum lengths).
+
+Relevant Code Snippet (Routes with express-validator):
+
+
+const { body } = require('express-validator');
+
+const categoryValidation = [
+    body('name')
+        .trim()
+        .notEmpty().withMessage('Category name is required.')
+        .isLength({ min: 3 }).withMessage('Category name must be at least 3 characters long.')
+        .isLength({ max: 100 }).withMessage('Category name cannot exceed 100 characters.')
+];
+
+router.post('/new-category', categoryValidation, categoryController.processCreateCategory);
