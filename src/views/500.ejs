@@ -1,7 +1,0 @@
-<%- include('./partials/header') %>
-<h2>Internal Server Error (500)</h2>
-<p style="color: red; font-family: monospace; background: #fee2e2; padding: 10px; border-radius: 4px;">
-  <strong>Error Details:</strong> <%= locals.message || 'An unexpected database or server error occurred.' %>
-</p>
-<p>This typically happens if your Render PostgreSQL database tables have not been created or seeded yet.</p>
-<%- include('./partials/footer') %>
