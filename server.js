@@ -3,7 +3,6 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import 'dotenv/config';
 
-// Import from the exact file found in your routes directory
 import indexRouter from './routes/indexRoute.js'; 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -18,7 +17,9 @@ app.set('views', [
     path.join(__dirname, 'src/views')
 ]);
 
+// Serve static assets from both possible public directories
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'src/public')));
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/', indexRouter);
