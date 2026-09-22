@@ -3,8 +3,8 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import 'dotenv/config';
 
-// Import your routes here (adjust path if needed, e.g., './src/routes/index.js' or './routes/index.js')
-import indexRouter from './routes/index.js'; 
+// Corrected import path for your routes inside src/
+import indexRouter from './src/routes/index.js'; 
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -26,7 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use('/', indexRouter);
 
-// Global Error Handler to display exact crash reason in browser
+// Global Error Handler
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send(`
