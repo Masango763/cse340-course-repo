@@ -20,7 +20,7 @@ router.get('/organizations', async (req, res) => {
 router.get('/projects', async (req, res) => {
     try {
         const result = await pool.query(`
-            p.id, p.name, p.description, p.due_date, o.name AS organization_name 
+            SELECT p.id, p.name, p.description, p.due_date, o.name AS organization_name 
             FROM projects p 
             JOIN organizations o ON p.organization_id = o.id 
             ORDER BY p.due_date
@@ -38,7 +38,6 @@ router.get('/categories', async (req, res) => {
         res.render('categories/index', { title: 'Service Project Categories', categories: result.rows });
     } catch (err) {
         console.error('Error fetching categories:', err);
-        // Fallback placeholder if DB query fails temporarily
         const categories = [
             { name: 'Environmental', description: 'Promoting sustainability and green tech.' },
             { name: 'Educational', description: 'Teaching youth and adult digital literacy.' },
