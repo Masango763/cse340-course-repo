@@ -3,8 +3,8 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import 'dotenv/config';
 
-// Corrected import path for your routes inside src/
-import indexRouter from './src/routes/index.js'; 
+// Import from the exact file found in your routes directory
+import indexRouter from './routes/indexRoute.js'; 
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -12,21 +12,17 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Set view engine
 app.set('view engine', 'ejs');
 app.set('views', [
     path.join(__dirname, 'views'),
     path.join(__dirname, 'src/views')
 ]);
 
-// Static files
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 
-// Routes
 app.use('/', indexRouter);
 
-// Global Error Handler
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send(`
