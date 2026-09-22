@@ -38,16 +38,30 @@ CREATE TABLE project_categories (
 INSERT INTO organizations (name, description, location) VALUES
 ('CodeCraft Youth Initiative', 'Teaching youth programming and web development skills.', 'Rexburg, ID'),
 ('OpenCivic Tech Alliance', 'Building open source civic tools for local government.', 'Boise, ID'),
-('Senior Digital Bridge', 'Helping senior citizens bridge the digital divide.', 'Idaho Falls, ID');
+('Senior Digital Bridge', 'Helping senior citizens bridge the digital divide.', 'Idaho Falls, ID'),
+('Green Earth Alliance', 'Promoting environmental sustainability through tech.', 'Portland, OR'),
+('HealthAccess Community', 'Expanding telehealth access in rural regions.', 'Salt Lake City, UT');
 
 -- Seed Data: Categories
 INSERT INTO categories (name) VALUES
 ('Education'),
 ('Environment'),
-('Healthcare');
+('Healthcare'),
+('Technology'),
+('Community Development');
 
 -- Seed Data: Projects
 INSERT INTO projects (name, description, due_date, organization_id) VALUES
 ('Youth Code Camp', 'A summer coding bootcamp for high school students.', '2026-06-15', 1),
 ('Civic Budget Visualizer', 'Interactive charts for city budget allocation transparency.', '2026-07-20', 2),
-('Senior Tech Help Desk', 'Weekly drop-in tech support sessions for seniors.', '2026-05-10', 3);
+('Senior Tech Help Desk', 'Weekly drop-in tech support sessions for seniors.', '2026-05-10', 3),
+('EcoTrack Clean Rivers', 'Sensor network to monitor local water pollution levels.', '2026-08-12', 4),
+('Rural Telehealth Kiosk', 'Setting up remote diagnosis terminals in local community centers.', '2026-09-30', 5);
+
+-- Seed Data: Project-Categories (Many-to-Many Relationships)
+INSERT INTO project_categories (project_id, category_id) VALUES
+(1, 1), (1, 4),
+(2, 4), (2, 5),
+(3, 1), (3, 5),
+(4, 2), (4, 4),
+(5, 3), (5, 4);
