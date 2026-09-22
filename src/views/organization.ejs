@@ -9,7 +9,7 @@
   };
   const orgImage = orgImages[organization.organization_name] || '/images/placeholder.jpg';
 %>
-<img src="<%= orgImage %>" alt="<%= organization.organization_name %>" style="width: 100%; max-width: 400px; height: auto; border-radius: 8px; margin-bottom: 1rem;" />
+<img src="<%= orgImage %>" alt="<%= organization.organization_name %>" style="width: 100%; max-width: 400px; height: auto; border-radius: 8px; margin-bottom: 1rem; object-fit: cover;" />
 <h2><%= organization.organization_name %></h2>
 <p><strong>Location:</strong> <%= organization.location %></p>
 <p><strong>Contact Email:</strong> <%= organization.contact_email || 'N/A' %></p>

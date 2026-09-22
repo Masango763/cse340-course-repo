@@ -12,9 +12,12 @@
 <% if (organizations && organizations.length > 0) { %>
   <ul style="list-style: none; padding: 0;">
     <% organizations.forEach(org => { %>
-      <li style="display: flex; align-items: center; margin-bottom: 12px;">
-        <img src="<%= orgImages[org.organization_name] || '/images/placeholder.jpg' %>" alt="<%= org.organization_name %>" width="48" height="32" style="object-fit: cover; margin-right: 10px; border-radius: 4px;" />
-        <a href="/organization/<%= org.organization_id || org.id %>"><%= org.organization_name %></a>&nbsp;- <%= org.location %>
+      <li style="display: flex; align-items: center; margin-bottom: 15px; background: #f9f9f9; padding: 10px; border-radius: 6px;">
+        <img src="<%= orgImages[org.organization_name] || '/images/placeholder.jpg' %>" alt="<%= org.organization_name %>" width="60" height="40" style="object-fit: cover; margin-right: 15px; border-radius: 4px;" />
+        <div>
+          <a href="/organization/<%= org.organization_id || org.id %>" style="font-size: 1.1em; font-weight: bold; text-decoration: none; color: #0066cc;"><%= org.organization_name %></a>
+          <p style="margin: 4px 0 0 0; color: #555; font-size: 0.9em;">Location: <%= org.location %></p>
+        </div>
       </li>
     <% }); %>
   </ul>
