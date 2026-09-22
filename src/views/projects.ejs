@@ -2,16 +2,16 @@
 <img src="/images/hero.jpg" alt="CSE 340 Service Hub" style="width: 100%; max-width: 1200px; height: auto; border-radius: 8px; margin-bottom: 1.5rem;" />
 <h2>Upcoming Service Projects</h2>
 <% if (projects && projects.length > 0) { %>
-  <ul>
-    <% projects.forEach(project => { %>
-      <li>
-        <a href="/project/<%= project.project_id %>"><%= project.title %></a> - 
-        Organization: <a href="/organization/<%= project.organization_id %>"><%= project.organization_name %></a> 
-        (<%= new Date(project.date).toLocaleDateString() %>)
-      </li>
-    <% }); %>
-  </ul>
+  <ul>
+    <% projects.forEach(project => { %>
+      <li>
+        <a href="/project/<%= project.project_id %>"><%= project.title %></a> - 
+        Organization: <a href="/organization/<%= project.organization_id %>"><%= project.organization_name %></a> 
+        (<%= new Date(project.date).toLocaleDateString() %>)
+      </li>
+    <% }); %>
+  </ul>
 <% } else { %>
-  <p>No upcoming service projects found.</p>
+  <p>No upcoming service projects found.</p>
 <% } %>
 <%- include('./partials/footer') %>
