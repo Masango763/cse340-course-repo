@@ -9,13 +9,14 @@
 <body>
     <%- include('../partials/header') %>
     <main>
-        <h2>Service Project Categories</h2>
-        <ul>
-            <% categories.forEach(cat => { %>
-                <li><a href="/category/<%= cat.category_id %>"><%= cat.name %></a></li>
-            <% }); %>
-        </ul>
-        <p><a href="/new-category" class="btn">Add a New Category</a></p>
+        <h2><%= title %></h2>
+        <form action="/new-category" method="POST">
+            <div class="form-group">
+                <label for="name">Category Name</label>
+                <input type="text" id="name" name="name" maxlength="100" required />
+            </div>
+            <button type="submit">Create Category</button>
+        </form>
     </main>
     <%- include('../partials/footer') %>
 </body>

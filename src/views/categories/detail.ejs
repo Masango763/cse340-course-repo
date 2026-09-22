@@ -9,13 +9,9 @@
 <body>
     <%- include('../partials/header') %>
     <main>
-        <h2>Service Project Categories</h2>
-        <ul>
-            <% categories.forEach(cat => { %>
-                <li><a href="/category/<%= cat.category_id %>"><%= cat.name %></a></li>
-            <% }); %>
-        </ul>
-        <p><a href="/new-category" class="btn">Add a New Category</a></p>
+        <h2>Category: <%= category.name %></h2>
+        <p><a href="/edit-category/<%= category.category_id %>">Edit Category</a></p>
+        <p><a href="/categories">Back to Categories</a></p>
     </main>
     <%- include('../partials/footer') %>
 </body>

@@ -9,3 +9,17 @@
         </ul>
     </nav>
 </header>
+<% if (locals.messages) { %>
+    <div class="flash-messages">
+        <% if (messages.error) { %>
+            <% messages.error.forEach(msg => { %>
+                <div class="alert alert-error"><%= msg %></div>
+            <% }) %>
+        <% } %>
+        <% if (messages.success) { %>
+            <% messages.success.forEach(msg => { %>
+                <div class="alert alert-success"><%= msg %></div>
+            <% }) %>
+        <% } %>
+    </div>
+<% } %>
