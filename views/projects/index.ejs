@@ -10,7 +10,20 @@
     <%- include('../partials/header') %>
     <main>
         <h2>Service Projects</h2>
-        <p>View active technology projects making an impact in our region.</p>
+        <% if (locals.projects && projects.length > 0) { %>
+            <div class="category-grid">
+                <% projects.forEach(project => { %>
+                    <div class="card">
+                        <h3><%= project.name %></h3>
+                        <p><strong>Organization:</strong> <%= project.organization_name %></p>
+                        <p><%= project.description %></p>
+                        <p><small>Due: <%= project.due_date ? new Date(project.due_date).toLocaleDateString() : 'N/A' %></small></p>
+                    </div>
+                <% }) %>
+            </div>
+        <% } else { %>
+            <p>No projects found.</p>
+        <% } %>
     </main>
     <%- include('../partials/footer') %>
 </body>

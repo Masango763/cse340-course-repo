@@ -10,7 +10,19 @@
     <%- include('../partials/header') %>
     <main>
         <h2>Our Partner Organizations</h2>
-        <p>Explore the non-profits and community groups we collaborate with.</p>
+        <% if (locals.organizations && organizations.length > 0) { %>
+            <div class="category-grid">
+                <% organizations.forEach(org => { %>
+                    <div class="card">
+                        <h3><%= org.name %></h3>
+                        <p><%= org.description %></p>
+                        <p><small>Location: <%= org.location %></small></p>
+                    </div>
+                <% }) %>
+            </div>
+        <% } else { %>
+            <p>No organizations found.</p>
+        <% } %>
     </main>
     <%- include('../partials/footer') %>
 </body>
