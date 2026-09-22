@@ -1,37 +1,33 @@
 import express from 'express';
 import session from 'express-session';
-import flash from './middleware/flash.js';
-import router from './routes.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
+import indexRouter from './routes/indexRoute.js';
+
+dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const SESSION_SECRET = process.env.SESSION_SECRET || 'fallback_secret';
 
-// Set view engine
 app.set('view engine', 'ejs');
-app.set('views', './src/views');
+app.set('views', path.join(__dirname, 'views'));
 
-// Body parsing middleware
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Session management
 app.use(session({
-    secret: SESSION_SECRET,
+    secret: process.env.SESSION_SECRET || 'cse340-secret-key',
     resave: false,
-    saveUninitialized: true,
-    cookie: { maxAge: 60 * 60 * 1000 }
+    saveUninitialized: false
 }));
 
-// Flash message middleware
-app.use(flash);
-
-// Static files middleware (Fixes 404 errors for images and CSS)
-app.use(express.static('public'));
-
-// Routes
-app.use(router);
+app.use('/', indexRouter);
 
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`Server is running on http://localhost:${PORT}`);
 });
