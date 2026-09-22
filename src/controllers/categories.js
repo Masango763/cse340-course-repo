@@ -6,7 +6,6 @@ import {
     updateCategory
 } from '../models/categories.js';
 
-// Server-side validation rules
 const categoryValidation = [
     body('name')
         .trim()
@@ -42,9 +41,9 @@ const processNewCategoryForm = async (req, res) => {
     }
 
     const { name } = req.body;
-    const categoryId = await createCategory(name);
+    const category = await createCategory(name);
     req.flash('success', 'Category created successfully!');
-    res.redirect(`/category/${categoryId}`);
+    res.redirect(`/category/${category.category_id}`);
 };
 
 const showEditCategoryForm = async (req, res) => {
