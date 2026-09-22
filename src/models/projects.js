@@ -1,57 +1,41 @@
 import pool from '../database/db.js';
 
-export const getUpcomingProjects = async (limit = 5) => {
-    try {
-        const query = `
-            SELECT p.*, 
-                   COALESCE(p.name, p.title) AS title, 
-                   COALESCE(p.due_date, p.date) AS date, 
-                   o.name AS organization_name
-            FROM projects p
-            JOIN organizations o ON (p.organization_id = o.id OR p.org_id = o.id OR p.organization_id = o.organization_id)
-            ORDER BY COALESCE(p.due_date, p.date) ASC
-            LIMIT $1;
-        `;
-        const result = await pool.query(query, [limit]);
-        return result.rows;
-    } catch (err) {
-        console.error('Error in getUpcomingProjects model:', err);
-        throw err;
-    }
+const getUpcomingProjects = async (number_of_projects = 5) => {
+  const query = `
+    SELECT p.project_id, p.title, p.description, p.date, p.location, 
+           o.organization_id, o.name AS organization_name
+    FROM projects p
+    JOIN organizations o ON p.organization_id = o.organization_id
+    WHERE p.date >= CURRENT_DATE
+    ORDER BY p.date ASC
+    LIMIT $1;
+  `;
+  const result = await pool.query(query, [number_of_projects]);
+  return result.rows;
 };
 
-export const getProjectDetails = async (id) => {
-    try {
-        const query = `
-            SELECT p.*, 
-                   COALESCE(p.name, p.title) AS title, 
-                   COALESCE(p.due_date, p.date) AS date, 
-                   o.name AS organization_name
-            FROM projects p
-            LEFT JOIN organizations o ON (p.organization_id = o.id OR p.org_id = o.id OR p.organization_id = o.organization_id)
-            WHERE p.id = $1 OR p.project_id = $1;
-        `;
-        const result = await pool.query(query, [id]);
-        return result.rows[0];
-    } catch (err) {
-        console.error('Error in getProjectDetails model:', err);
-        return null;
-    }
+const getProjectDetails = async (id) => {
+  const query = `
+    SELECT p.project_id, p.title, p.description, p.date, p.location, 
+           o.organization_id, o.name AS organization_name
+    FROM projects p
+    JOIN organizations o ON p.organization_id = o.organization_id
+    WHERE p.project_id = $1;
+  `;
+  const result = await pool.query(query, [id]);
+  return result.rows[0];
 };
 
-export const getCategoriesByProjectId = async (projectId) => {
-    try {
-        const query = `
-            SELECT c.*
-            FROM categories c
-            JOIN project_categories pc ON (c.id = pc.category_id OR c.category_id = pc.category_id)
-            WHERE pc.project_id = $1
-            ORDER BY c.name ASC;
-        `;
-        const result = await pool.query(query, [projectId]);
-        return result.rows;
-    } catch (err) {
-        console.error('Error in getCategoriesByProjectId model:', err);
-        return [];
-    }
+const getCategoriesByProjectId = async (projectId) => {
+  const query = `
+    SELECT c.category_id, c.name
+    FROM categories c
+    JOIN project_categories pc ON c.category_id = pc.category_id
+    WHERE pc.project_id = $1
+    ORDER BY c.name ASC;
+  `;
+  const result = await pool.query(query, [projectId]);
+  return result.rows;
 };
+
+export { getUpcomingProjects, getProjectDetails, getCategoriesByProjectId };

@@ -6,6 +6,7 @@ import {
     updateCategory
 } from '../models/categories.js';
 
+// Server-side validation rules
 const categoryValidation = [
     body('name')
         .trim()
@@ -14,31 +15,21 @@ const categoryValidation = [
 ];
 
 const showCategoriesPage = async (req, res) => {
-    try {
-        const categories = await getAllCategories();
-        const title = 'Categories';
-        res.render('categories/index', { title, categories });
-    } catch (err) {
-        console.error('Error fetching categories:', err);
-        res.status(500).render('index', { title: 'Error' });
-    }
+    const categories = await getAllCategories();
+    const title = 'Categories';
+    res.render('categories', { title, categories });
 };
 
 const showCategoryDetailsPage = async (req, res) => {
-    try {
-        const categoryId = req.params.id;
-        const category = await getCategoryDetails(categoryId);
-        const title = category.name;
-        res.render('categories/detail', { title, category });
-    } catch (err) {
-        console.error('Error fetching category details:', err);
-        res.status(404).render('index', { title: 'Not Found' });
-    }
+    const categoryId = req.params.id;
+    const category = await getCategoryDetails(categoryId);
+    const title = category.name;
+    res.render('category', { title, category });
 };
 
 const showNewCategoryForm = (req, res) => {
     const title = 'Add New Category';
-    res.render('categories/new', { title });
+    res.render('new-category', { title });
 };
 
 const processNewCategoryForm = async (req, res) => {
@@ -49,22 +40,18 @@ const processNewCategoryForm = async (req, res) => {
         });
         return res.redirect('/new-category');
     }
+
     const { name } = req.body;
-    const category = await createCategory(name);
+    const categoryId = await createCategory(name);
     req.flash('success', 'Category created successfully!');
-    res.redirect(`/category/${category.category_id}`);
+    res.redirect(`/category/${categoryId}`);
 };
 
 const showEditCategoryForm = async (req, res) => {
-    try {
-        const categoryId = req.params.id;
-        const category = await getCategoryDetails(categoryId);
-        const title = 'Edit Category';
-        res.render('categories/edit', { title, category });
-    } catch (err) {
-        console.error('Error loading edit form:', err);
-        res.status(404).render('index', { title: 'Not Found' });
-    }
+    const categoryId = req.params.id;
+    const category = await getCategoryDetails(categoryId);
+    const title = 'Edit Category';
+    res.render('edit-category', { title, category });
 };
 
 const processEditCategoryForm = async (req, res) => {
@@ -76,6 +63,7 @@ const processEditCategoryForm = async (req, res) => {
         });
         return res.redirect(`/edit-category/${categoryId}`);
     }
+
     const { name } = req.body;
     await updateCategory(categoryId, name);
     req.flash('success', 'Category updated successfully!');

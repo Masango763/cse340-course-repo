@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "CSE 340 Web Backend Development",
   "type": "module",
-  "main": "src/server.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node src/server.js",
-    "dev": "node --watch src/server.js"
+    "start": "node server.js",
+    "dev": "node --watch server.js"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
