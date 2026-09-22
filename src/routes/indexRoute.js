@@ -1,5 +1,6 @@
 import express from 'express';
 import pool from '../database/db.js';
+import { showProjectsPage } from '../controllers/projects.js';
 
 const router = express.Router();
 
@@ -17,20 +18,7 @@ router.get('/organizations', async (req, res) => {
     }
 });
 
-router.get('/projects', async (req, res) => {
-    try {
-        const result = await pool.query(`
-            SELECT p.id, p.name, p.description, p.due_date, o.name AS organization_name 
-            FROM projects p 
-            JOIN organizations o ON p.organization_id = o.id 
-            ORDER BY p.due_date
-        `);
-        res.render('projects/index', { title: 'Service Projects', projects: result.rows });
-    } catch (err) {
-        console.error('Error fetching projects:', err);
-        res.status(500).render('index', { title: 'Error' });
-    }
-});
+router.get('/projects', showProjectsPage);
 
 router.get('/categories', async (req, res) => {
     try {

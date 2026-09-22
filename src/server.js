@@ -3,7 +3,8 @@ import session from 'express-session';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
-import indexRouter from './routes/indexRoute.js';
+import flash from './middleware/flash.js';
+import router from './routes.js';
 
 dotenv.config();
 
@@ -26,7 +27,9 @@ app.use(session({
     saveUninitialized: false
 }));
 
-app.use('/', indexRouter);
+app.use(flash);
+
+app.use('/', router);
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
