@@ -1,22 +1,24 @@
 <%- include('./partials/header') %>
 <%
-  const orgImages = {
-    'CodeCraft Youth Initiative': '/images/org1.jpg',
-    'OpenCivic Tech Alliance': '/images/org2.jpg',
-    'Senior Digital Bridge': '/images/org3.jpg'
-  };
+  const orgImages = {
+    'CodeCraft Youth Initiative': '/images/org1.jpg',
+    'Green Earth Alliance': '/images/placeholder.jpg',
+    'HealthAccess Community': '/images/placeholder.jpg',
+    'OpenCivic Tech Alliance': '/images/org2.jpg',
+    'Senior Digital Bridge': '/images/org3.jpg'
+  };
 %>
 <h2>Partner Organizations</h2>
 <% if (organizations && organizations.length > 0) { %>
-  <ul style="list-style: none; padding: 0;">
-    <% organizations.forEach(org => { %>
-      <li style="display: flex; align-items: center; margin-bottom: 12px;">
-        <img src="<%= orgImages[org.organization_name] || '/images/placeholder.jpg' %>" alt="<%= org.organization_name %>" width="48" height="32" style="object-fit: cover; margin-right: 10px; border-radius: 4px;" />
-        <a href="/organization/<%= org.organization_id %>"><%= org.organization_name %></a>&nbsp;- <%= org.location %>
-      </li>
-    <% }); %>
-  </ul>
+  <ul style="list-style: none; padding: 0;">
+    <% organizations.forEach(org => { %>
+      <li style="display: flex; align-items: center; margin-bottom: 12px;">
+        <img src="<%= orgImages[org.organization_name] || '/images/placeholder.jpg' %>" alt="<%= org.organization_name %>" width="48" height="32" style="object-fit: cover; margin-right: 10px; border-radius: 4px;" />
+        <a href="/organization/<%= org.organization_id || org.id %>"><%= org.organization_name %></a>&nbsp;- <%= org.location %>
+      </li>
+    <% }); %>
+  </ul>
 <% } else { %>
-  <p>No organizations found.</p>
+  <p>No organizations found.</p>
 <% } %>
 <%- include('./partials/footer') %>
