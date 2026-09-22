@@ -18,6 +18,7 @@ app.set('views', [
     path.join(rootDir, 'src/views')
 ]);
 
+// Serve static assets from public folders
 app.use(express.static(path.join(rootDir, 'public')));
 app.use(express.static(path.join(rootDir, 'src/public')));
 app.use(express.urlencoded({ extended: true }));
