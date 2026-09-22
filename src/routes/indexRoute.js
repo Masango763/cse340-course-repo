@@ -1,6 +1,6 @@
 import express from 'express';
 import pool from '../database/db.js';
-import { showProjectsPage } from '../controllers/projects.js';
+import { showProjectsPage, showProjectDetailsPage } from '../controllers/projects.js';
 
 const router = express.Router();
 
@@ -19,6 +19,7 @@ router.get('/organizations', async (req, res) => {
 });
 
 router.get('/projects', showProjectsPage);
+router.get('/projects/:id', showProjectDetailsPage);
 
 router.get('/categories', async (req, res) => {
     try {
