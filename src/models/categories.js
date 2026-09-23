@@ -1,27 +1,20 @@
 import pool from '../database/db.js';
 
 export async function getAllCategories() {
-    const result = await pool.query('SELECT * FROM categories ORDER BY category_name ASC');
-    return result.rows;
+  const result = await pool.query('SELECT * FROM categories ORDER BY name');
+  return result.rows;
 }
 
 export async function getCategoryById(id) {
-    const result = await pool.query('SELECT * FROM categories WHERE category_id = $1', [id]);
-    return result.rows[0];
+  const result = await pool.query('SELECT * FROM categories WHERE id = $1', [id]);
+  return result.rows[0];
 }
 
 export async function createCategory(name) {
-    const result = await pool.query(
-        'INSERT INTO categories (category_name) VALUES ($1) RETURNING *',
-        [name]
-    );
-    return result.rows[0];
+  const result = await pool.query('INSERT INTO categories (name) VALUES ($1) RETURNING id', [name]);
+  return result.rows[0].id;
 }
 
 export async function updateCategory(id, name) {
-    const result = await pool.query(
-        'UPDATE categories SET category_name = $1 WHERE category_id = $2 RETURNING *',
-        [name, id]
-    );
-    return result.rows[0];
+  await pool.query('UPDATE categories SET name = $1 WHERE id = $2', [name, id]);
 }

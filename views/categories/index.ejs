@@ -1,24 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %> - Tech Charities</title>
-    <link rel="stylesheet" href="/css/style.css">
-</head>
-<body>
-    <%- include('../partials/header') %>
-    <main>
-        <h2>Service Project Categories</h2>
-        <div class="category-grid">
-            <% categories.forEach(category => { %>
-                <div class="card">
-                    <h3><%= category.name %></h3>
-                    <p><%= category.description %></p>
-                </div>
-            <% }) %>
-        </div>
-    </main>
-    <%- include('../partials/footer') %>
-</body>
-</html>
+<%- include('../partials/header') %>
+<%- include('../partials/flash') %>
+<h2>Service Project Categories</h2>
+<p><a href="/new-category">+ Add New Category</a></p>
+<% if (categories && categories.length > 0) { %>
+  <ul class="row-list">
+    <% categories.forEach((cat, index) => {
+      const imgNum = index + 1;
+      const imgSrc = imgNum <= 4 ? `/images/cat${imgNum}.jpg` : '/images/placeholder.jpg';
+    %>
+      <li class="row-card">
+        <a href="/category/<%= cat.id %>" class="row-card-link">
+          <img src="<%= imgSrc %>" alt="<%= cat.name %>" width="60" height="40" class="row-thumb" />
+          <div>
+            <span class="row-title"><%= cat.name %></span>
+          </div>
+        </a>
+      </li>
+    <% }) %>
+  </ul>
+<% } else { %>
+  <p>No categories found.</p>
+<% } %>
+<%- include('../partials/footer') %>

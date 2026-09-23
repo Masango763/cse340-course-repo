@@ -1,7 +1,7 @@
-import pool from '../../database/db.js';
+import pool from '../database/db.js';
 
 export async function getAllOrganizations() {
-  const result = await pool.query('SELECT * FROM organizations ORDER BY organization_name');
+  const result = await pool.query('SELECT * FROM organizations ORDER BY name');
   return result.rows;
 }
 
@@ -11,6 +11,6 @@ export async function getOrganizationById(id) {
 }
 
 export async function getProjectsByOrganizationId(orgId) {
-  const result = await pool.query('SELECT * FROM projects WHERE organization_id = $1 ORDER BY date', [orgId]);
+  const result = await pool.query('SELECT * FROM projects WHERE organization_id = $1 ORDER BY due_date', [orgId]);
   return result.rows;
 }

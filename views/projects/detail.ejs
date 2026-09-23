@@ -1,0 +1,12 @@
+<%- include('../partials/header') %>
+<%- include('../partials/flash') %>
+<h2><%= project.name %></h2>
+<p><strong>Organization:</strong> <a href="/organization/<%= project.organization_id %>"><%= project.organization_name %></a></p>
+<p><%= project.description %></p>
+<p><small>Due: <%= project.due_date ? new Date(project.due_date).toLocaleDateString() : 'N/A' %></small></p>
+<h3>Categories</h3>
+<% if (categories.length > 0) { %>
+  <ul><% categories.forEach(c => { %><li><%= c.name %></li><% }) %></ul>
+<% } else { %><p>No categories assigned.</p><% } %>
+<p><a href="/edit-project/<%= project.id %>">Edit this project</a></p>
+<%- include('../partials/footer') %>

@@ -1,0 +1,27 @@
+<%- include('../partials/header') %>
+<%- include('../partials/flash') %>
+<h2>Add New Project</h2>
+<% if (typeof errors !== 'undefined' && errors.length > 0) { %>
+  <ul class="form-errors"><% errors.forEach(e => { %><li><%= e.msg %></li><% }) %></ul>
+<% } %>
+<form method="POST" action="/new-project" class="form">
+  <label for="name">Project Name</label>
+  <input type="text" id="name" name="name" value="<%= values.name || '' %>">
+
+  <label for="description">Description</label>
+  <textarea id="description" name="description" rows="4"><%= values.description || '' %></textarea>
+
+  <label for="due_date">Due Date</label>
+  <input type="date" id="due_date" name="due_date" value="<%= values.due_date || '' %>">
+
+  <label for="organization_id">Organization</label>
+  <select id="organization_id" name="organization_id">
+    <option value="">-- Select an organization --</option>
+    <% organizations.forEach(org => { %>
+      <option value="<%= org.id %>" <%= String(values.organization_id) === String(org.id) ? 'selected' : '' %>><%= org.name %></option>
+    <% }) %>
+  </select>
+
+  <button type="submit">Create Project</button>
+</form>
+<%- include('../partials/footer') %>

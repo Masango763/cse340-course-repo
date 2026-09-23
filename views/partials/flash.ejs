@@ -1,0 +1,8 @@
+<% if (typeof flash !== 'undefined') { %>
+  <% if (flash.success) { %>
+    <% flash.success.forEach(msg => { %><div class="flash flash-success"><%= msg %></div><% }) %>
+  <% } %>
+  <% if (flash.error) { %>
+    <% flash.error.forEach(msg => { %><div class="flash flash-error"><%= msg %></div><% }) %>
+  <% } %>
+<% } %>

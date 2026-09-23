@@ -1,0 +1,12 @@
+<%- include('../partials/header') %>
+<%- include('../partials/flash') %>
+<h2>Edit Category</h2>
+<% if (typeof errors !== 'undefined' && errors.length > 0) { %>
+  <ul class="form-errors"><% errors.forEach(e => { %><li><%= e.msg %></li><% }) %></ul>
+<% } %>
+<form method="POST" action="/edit-category/<%= category.id %>" class="form">
+  <label for="name">Category Name</label>
+  <input type="text" id="name" name="name" value="<%= values.name %>">
+  <button type="submit">Save Changes</button>
+</form>
+<%- include('../partials/footer') %>

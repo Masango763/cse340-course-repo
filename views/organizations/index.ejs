@@ -1,29 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %> - Tech Charities</title>
-    <link rel="stylesheet" href="/css/style.css">
-</head>
-<body>
-    <%- include('../partials/header') %>
-    <main>
-        <h2>Our Partner Organizations</h2>
-        <% if (locals.organizations && organizations.length > 0) { %>
-            <div class="category-grid">
-                <% organizations.forEach(org => { %>
-                    <div class="card">
-                        <h3><%= org.name %></h3>
-                        <p><%= org.description %></p>
-                        <p><small>Location: <%= org.location %></small></p>
-                    </div>
-                <% }) %>
-            </div>
-        <% } else { %>
-            <p>No organizations found.</p>
-        <% } %>
-    </main>
-    <%- include('../partials/footer') %>
-</body>
-</html>
+<%- include('../partials/header') %>
+<%- include('../partials/flash') %>
+<h2>Partner Organizations</h2>
+<%
+  const orgImages = {
+    'CodeCraft Youth Initiative': '/images/organizations/codecraft-youth-initiative.jpg',
+    'Green Earth Alliance': '/images/organizations/green-earth-alliance.jpg',
+    'HealthAccess Community': '/images/organizations/healthaccess-community.jpg',
+    'OpenCivic Tech Alliance': '/images/organizations/opencivic-tech-alliance.jpg',
+    'Senior Digital Bridge': '/images/organizations/senior-digital-bridge.jpg'
+  };
+%>
+<% if (organizations && organizations.length > 0) { %>
+  <ul class="row-list">
+    <% organizations.forEach(org => { %>
+      <li class="row-card">
+        <a href="/organization/<%= org.id %>" class="row-card-link">
+          <img src="<%= orgImages[org.name] || '/images/placeholder.jpg' %>" alt="<%= org.name %>" width="60" height="40" class="row-thumb" />
+          <div>
+            <span class="row-title"><%= org.name %></span>
+            <p class="row-subtitle">- <%= org.location %></p>
+          </div>
+        </a>
+      </li>
+    <% }) %>
+  </ul>
+<% } else { %>
+  <p>No organizations found.</p>
+<% } %>
+<%- include('../partials/footer') %>

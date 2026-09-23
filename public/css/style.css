@@ -84,3 +84,47 @@ a {
 a:hover {
   text-decoration: underline;
 }
+
+.row-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.row-card {
+  margin-bottom: 15px;
+  background: #f9f9f9;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.row-card-link {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.row-card-link:hover {
+  background: #f0f4ff;
+}
+
+.row-thumb {
+  object-fit: cover;
+  margin-right: 15px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.row-title {
+  font-size: 1.1em;
+  font-weight: bold;
+  color: #0066cc;
+}
+
+.row-subtitle {
+  margin: 4px 0 0 0;
+  color: #555;
+  font-size: 0.9em;
+}

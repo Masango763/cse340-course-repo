@@ -1,0 +1,36 @@
+<%- include('../partials/header') %>
+<%- include('../partials/flash') %>
+<h2>Edit Project</h2>
+<% if (typeof errors !== 'undefined' && errors.length > 0) { %>
+  <ul class="form-errors"><% errors.forEach(e => { %><li><%= e.msg %></li><% }) %></ul>
+<% } %>
+<form method="POST" action="/edit-project/<%= project.id %>" class="form">
+  <label for="name">Project Name</label>
+  <input type="text" id="name" name="name" value="<%= values.name %>">
+
+  <label for="description">Description</label>
+  <textarea id="description" name="description" rows="4"><%= values.description %></textarea>
+
+  <label for="due_date">Due Date</label>
+  <input type="date" id="due_date" name="due_date" value="<%= values.due_date %>">
+
+  <label for="organization_id">Organization</label>
+  <select id="organization_id" name="organization_id">
+    <% organizations.forEach(org => { %>
+      <option value="<%= org.id %>" <%= String(values.organization_id) === String(org.id) ? 'selected' : '' %>><%= org.name %></option>
+    <% }) %>
+  </select>
+
+  <fieldset>
+    <legend>Categories</legend>
+    <% allCategories.forEach(cat => { %>
+      <label class="checkbox-label">
+        <input type="checkbox" name="category_ids" value="<%= cat.id %>" <%= assignedIds.includes(cat.id) ? 'checked' : '' %>>
+        <%= cat.name %>
+      </label>
+    <% }) %>
+  </fieldset>
+
+  <button type="submit">Save Changes</button>
+</form>
+<%- include('../partials/footer') %>

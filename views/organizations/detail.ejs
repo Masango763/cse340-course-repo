@@ -1,0 +1,14 @@
+<%- include('../partials/header') %>
+<%- include('../partials/flash') %>
+<h2><%= organization.name %></h2>
+<p><small>Location: <%= organization.location %></small></p>
+<p><%= organization.description %></p>
+<h3>Service Projects</h3>
+<% if (projects.length > 0) { %>
+  <ul>
+    <% projects.forEach(p => { %>
+      <li><a href="/project/<%= p.id %>"><%= p.name %></a> (<%= p.due_date ? new Date(p.due_date).toLocaleDateString() : 'N/A' %>)</li>
+    <% }) %>
+  </ul>
+<% } else { %><p>No projects listed for this organization.</p><% } %>
+<%- include('../partials/footer') %>
