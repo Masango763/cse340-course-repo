@@ -54,3 +54,13 @@ export async function getCategoriesByProjectId(projectId) {
     return [];
   }
 }
+
+export async function getCategoriesByProjectId(projectId) {
+    const result = await pool.query(
+        `SELECT c.* FROM categories c 
+         JOIN project_categories pc ON c.category_id = pc.category_id 
+         WHERE pc.project_id = $1`,
+        [projectId]
+    );
+    return result.rows;
+}
