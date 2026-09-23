@@ -1,0 +1,27 @@
+<%- include('./partials/header') %>
+<%
+  const orgImages = {
+    'CodeCraft Youth Initiative': '/images/org1.jpg',
+    'Green Earth Alliance': '/images/placeholder.jpg',
+    'HealthAccess Community': '/images/placeholder.jpg',
+    'OpenCivic Tech Alliance': '/images/org2.jpg',
+    'Senior Digital Bridge': '/images/org3.jpg'
+  };
+  const orgImage = orgImages[organization.organization_name] || '/images/placeholder.jpg';
+%>
+<img src="<%= orgImage %>" alt="<%= organization.organization_name %>" style="width: 100%; max-width: 400px; height: auto; border-radius: 8px; margin-bottom: 1rem; object-fit: cover;" onerror="this.src='/images/placeholder.jpg';" />
+<h2><%= organization.organization_name %></h2>
+<p><strong>Location:</strong> <%= organization.location %></p>
+<p><strong>Contact Email:</strong> <%= organization.contact_email || 'N/A' %></p>
+<p><%= organization.description %></p>
+<h3>Service Projects</h3>
+<% if (projects && projects.length > 0) { %>
+  <ul>
+    <% projects.forEach(project => { %>
+      <li><a href="/project/<%= project.project_id || project.id %>"><%= project.project_name || project.title %></a> (<%= new Date(project.date).toLocaleDateString() %>)</li>
+    <% }); %>
+  </ul>
+<% } else { %>
+  <p>No projects listed for this organization.</p>
+<% } %>
+<%- include('./partials/footer') %>
