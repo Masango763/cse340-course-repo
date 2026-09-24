@@ -48,19 +48,19 @@ export async function showEditProjectForm(req, res, next) {
     const assigned = await getCategoriesForProject(project.id);
     const assignedIds = assigned.map(c => c.id);
     const values = { ...project, due_date: project.due_date ? new Date(project.due_date).toISOString().slice(0, 10) : '' };
-    res.render('projects/edit', { title: 'Edit Project', project, organizations, allCategories, assignedIds, values });
+    res.render('projects/update-project', { title: 'Edit Project', project, organizations, allCategories, assignedIds, values });
   } catch (err) { next(err); }
 }
 
-export async function processEditProject(req, res, next) {
+export async function processEditProjectForm(req, res, next) {
   try {
     const projectId = req.params.id;
     const errors = validationResult(req);
-    const selectedIds = [].concat(req.body.category_ids || []).map(Number);
+    const selectedIds = [...new Set([].concat(req.body.category_ids || []).map(Number))];
     if (!errors.isEmpty()) {
       const organizations = await getAllOrganizations();
       const allCategories = await getAllCategories();
-      return res.status(400).render('projects/edit', {
+      return res.status(400).render('projects/update-project', {
         title: 'Edit Project',
         project: { id: projectId },
         organizations, allCategories, assignedIds: selectedIds,

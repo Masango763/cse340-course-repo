@@ -2,15 +2,21 @@
 <%- include('../partials/flash') %>
 <h2>Service Project Categories</h2>
 <p><a href="/new-category">+ Add New Category</a></p>
+<%
+  const categoryImages = {
+    'Community Development': '/images/categories/community-development.jpg',
+    'Education': '/images/categories/education.jpg',
+    'Environment': '/images/categories/environment.jpg',
+    'Healthcare': '/images/categories/healthcare.jpg',
+    'Technology': '/images/categories/technology.jpg'
+  };
+%>
 <% if (categories && categories.length > 0) { %>
   <ul class="row-list">
-    <% categories.forEach((cat, index) => {
-      const imgNum = index + 1;
-      const imgSrc = imgNum <= 4 ? `/images/cat${imgNum}.jpg` : '/images/placeholder.jpg';
-    %>
+    <% categories.forEach(cat => { %>
       <li class="row-card">
         <a href="/category/<%= cat.id %>" class="row-card-link">
-          <img src="<%= imgSrc %>" alt="<%= cat.name %>" width="60" height="40" class="row-thumb" />
+          <img src="<%= categoryImages[cat.name] || '/images/placeholder.jpg' %>" alt="<%= cat.name %>" width="60" height="40" class="row-thumb" />
           <div>
             <span class="row-title"><%= cat.name %></span>
           </div>
