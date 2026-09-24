@@ -1,0 +1,19 @@
+<%- include('../partials/header') %>
+<%- include('../partials/flash') %>
+<h2>Add New Organization</h2>
+<% if (typeof errors !== 'undefined' && errors.length > 0) { %>
+  <ul class="form-errors"><% errors.forEach(e => { %><li><%= e.msg %></li><% }) %></ul>
+<% } %>
+<form method="POST" action="/new-organization" class="form">
+  <label for="name">Organization Name</label>
+  <input type="text" id="name" name="name" value="<%= values.name || '' %>">
+
+  <label for="description">Description</label>
+  <textarea id="description" name="description" rows="4"><%= values.description || '' %></textarea>
+
+  <label for="location">Location</label>
+  <input type="text" id="location" name="location" value="<%= values.location || '' %>">
+
+  <button type="submit">Create Organization</button>
+</form>
+<%- include('../partials/footer') %>

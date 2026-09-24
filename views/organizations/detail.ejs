@@ -3,6 +3,7 @@
 <h2><%= organization.name %></h2>
 <p><small>Location: <%= organization.location %></small></p>
 <p><%= organization.description %></p>
+<p><a href="/edit-organization/<%= organization.id %>">Edit this organization</a></p>
 <h3>Service Projects</h3>
 <% if (projects.length > 0) { %>
   <ul>
