@@ -1,5 +1,21 @@
 <%- include('partials/header') %>
 <%- include('partials/flash') %>
-<h2>Welcome to the CSE 340 Service Hub</h2>
-<p>Connecting community organizations with service projects.</p>
+<div class="service-hub vertical-stack">
+  <h1>CSE 340 Service Hub</h1>
+  
+  <section class="hub-section">
+    <h2>Organizations</h2>
+    <p><a href="/organizations">View Partner Organizations</a> | <a href="/new-organization">Add New Organization</a></p>
+  </section>
+
+  <section class="hub-section">
+    <h2>Projects</h2>
+    <p><a href="/new-project">Add New Service Project</a></p>
+  </section>
+
+  <section class="hub-section">
+    <h2>Categories</h2>
+    <p><a href="/categories">View Categories</a> | <a href="/new-category">Add New Category</a></p>
+  </section>
+</div>
 <%- include('partials/footer') %>

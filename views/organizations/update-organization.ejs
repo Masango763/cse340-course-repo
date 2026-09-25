@@ -4,7 +4,7 @@
 <% if (typeof errors !== 'undefined' && errors.length > 0) { %>
   <ul class="form-errors"><% errors.forEach(e => { %><li><%= e.msg %></li><% }) %></ul>
 <% } %>
-<form method="POST" action="/edit-organization/<%= organization.id %>" class="form vertical-form">
+<form method="POST" action="/edit-organization/<%= organization.id %>" class="form">
   <label for="name">Organization Name</label>
   <input type="text" id="name" name="name" value="<%= values.name || '' %>">
 
