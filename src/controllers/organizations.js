@@ -8,8 +8,10 @@ export const organizationValidation = [
   body('name').trim().notEmpty().withMessage('Organization name is required.')
     .isLength({ max: 255 }).withMessage('Organization name is too long.'),
   body('description').trim().notEmpty().withMessage('Description is required.'),
-  body('location').trim().notEmpty().withMessage('Location is required.')
-    .isLength({ max: 255 }).withMessage('Location is too long.')
+  body('email').trim().notEmpty().withMessage('Email is required.')
+    .isEmail().withMessage('Must be a valid email address.'),
+  body('logo_url').optional({ checkFalsy: true }).trim()
+    .isURL({ protocols: ['https'], require_protocol: true }).withMessage('Logo address must be a valid HTTPS URL.')
 ];
 
 export async function showOrganizationsPage(req, res, next) {
@@ -40,8 +42,8 @@ export async function processNewOrganization(req, res, next) {
         title: 'Add New Organization', values: req.body, errors: errors.array()
       });
     }
-    const { name, description, location } = req.body;
-    const orgId = await createOrganization({ name, description, location });
+    const { name, description, email } = req.body;
+    const orgId = await createOrganization({ name, description, email });
     req.flash('success', 'Organization created successfully!');
     res.redirect(`/organization/${orgId}`);
   } catch (err) { next(err); }
@@ -68,8 +70,8 @@ export async function processEditOrganizationForm(req, res, next) {
         values: req.body, errors: errors.array()
       });
     }
-    const { name, description, location } = req.body;
-    await updateOrganization(orgId, { name, description, location });
+    const { name, description, email, logo_url } = req.body;
+    await updateOrganization(orgId, { name, description, email, logo_url });
     req.flash('success', 'Organization updated successfully!');
     res.redirect(`/organization/${orgId}`);
   } catch (err) { next(err); }
