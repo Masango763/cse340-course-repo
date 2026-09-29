@@ -1,7 +1,7 @@
-import bcrypt from 'bcrypt';
-import { createUser, authenticateUser, getAllUsers } from '../models/users.js';
+const bcrypt = require('bcrypt');
+const { createUser, authenticateUser, getAllUsers } = require('../models/users.js');
 
-export const requireLogin = (req, res, next) => {
+const requireLogin = (req, res, next) => {
     if (!req.session || !req.session.user) {
         req.flash('error', 'You must be logged in to access that page.');
         return res.redirect('/login');
@@ -9,7 +9,7 @@ export const requireLogin = (req, res, next) => {
     next();
 };
 
-export const requireRole = (role) => {
+const requireRole = (role) => {
     return (req, res, next) => {
         if (!req.session || !req.session.user) {
             req.flash('error', 'You must be logged in to access this page.');
@@ -23,11 +23,11 @@ export const requireRole = (role) => {
     };
 };
 
-export const showUserRegistrationForm = (req, res) => {
+const showUserRegistrationForm = (req, res) => {
     res.render('register', { title: 'Register' });
 };
 
-export const processUserRegistrationForm = async (req, res) => {
+const processUserRegistrationForm = async (req, res) => {
     const { name, email, password } = req.body;
     try {
         const salt = await bcrypt.genSalt(10);
@@ -43,11 +43,11 @@ export const processUserRegistrationForm = async (req, res) => {
     }
 };
 
-export const showLoginForm = (req, res) => {
+const showLoginForm = (req, res) => {
     res.render('login', { title: 'Login' });
 };
 
-export const processLoginForm = async (req, res) => {
+const processLoginForm = async (req, res) => {
     const { email, password } = req.body;
     try {
         const user = await authenticateUser(email, password);
@@ -66,7 +66,7 @@ export const processLoginForm = async (req, res) => {
     }
 };
 
-export const processLogout = (req, res) => {
+const processLogout = (req, res) => {
     if (req.session.user) {
         delete req.session.user;
     }
@@ -74,7 +74,7 @@ export const processLogout = (req, res) => {
     res.redirect('/login');
 };
 
-export const showDashboard = (req, res) => {
+const showDashboard = (req, res) => {
     const user = req.session.user;
     res.render('dashboard', { 
         title: 'Dashboard',
@@ -84,7 +84,7 @@ export const showDashboard = (req, res) => {
     });
 };
 
-export const showUsersList = async (req, res, next) => {
+const showUsersList = async (req, res, next) => {
     try {
         const users = await getAllUsers();
         res.render('admin/users', { 
@@ -94,4 +94,16 @@ export const showUsersList = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
+};
+
+module.exports = {
+    requireLogin,
+    requireRole,
+    showUserRegistrationForm,
+    processUserRegistrationForm,
+    showLoginForm,
+    processLoginForm,
+    processLogout,
+    showDashboard,
+    showUsersList
 };

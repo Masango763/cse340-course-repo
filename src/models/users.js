@@ -1,7 +1,7 @@
-import db from './db.js';
-import bcrypt from 'bcrypt';
+const db = require('./db.js');
+const bcrypt = require('bcrypt');
 
-export const createUser = async (name, email, passwordHash) => {
+const createUser = async (name, email, passwordHash) => {
     const default_role = 'user';
     const query = `
         INSERT INTO users (name, email, password_hash, role_id) 
@@ -17,7 +17,7 @@ export const createUser = async (name, email, passwordHash) => {
     return result.rows[0].user_id;
 };
 
-export const findUserByEmail = async (email) => {
+const findUserByEmail = async (email) => {
     const query = `
         SELECT u.user_id, u.name, u.email, u.password_hash, r.role_name 
         FROM users u
@@ -31,11 +31,11 @@ export const findUserByEmail = async (email) => {
     return result.rows[0];
 };
 
-export const verifyPassword = async (password, passwordHash) => {
+const verifyPassword = async (password, passwordHash) => {
     return bcrypt.compare(password, passwordHash);
 };
 
-export const authenticateUser = async (email, password) => {
+const authenticateUser = async (email, password) => {
     const user = await findUserByEmail(email);
     if (!user) return null;
 
@@ -46,7 +46,7 @@ export const authenticateUser = async (email, password) => {
     return safeUser;
 };
 
-export const getAllUsers = async () => {
+const getAllUsers = async () => {
     const query = `
         SELECT u.user_id, u.name, u.email, r.role_name, u.created_at 
         FROM users u 
@@ -55,4 +55,12 @@ export const getAllUsers = async () => {
     `;
     const result = await db.query(query);
     return result.rows;
+};
+
+module.exports = {
+    createUser,
+    findUserByEmail,
+    verifyPassword,
+    authenticateUser,
+    getAllUsers
 };
