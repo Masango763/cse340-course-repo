@@ -1,5 +1,5 @@
-import { Router } from 'express';
-import { 
+const { Router } = require('express');
+const { 
     showUserRegistrationForm, 
     processUserRegistrationForm, 
     showLoginForm, 
@@ -9,7 +9,7 @@ import {
     showUsersList,
     requireLogin, 
     requireRole 
-} from './controllers/users.js';
+} = require('./controllers/users.js');
 
 const router = Router();
 
@@ -22,4 +22,4 @@ router.get('/logout', processLogout);
 router.get('/dashboard', requireLogin, showDashboard);
 router.get('/admin/users', requireLogin, requireRole('admin'), showUsersList);
 
-export default router;
+module.exports = router;

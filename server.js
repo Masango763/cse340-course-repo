@@ -1,7 +1,7 @@
-import express from 'express';
-import session from 'express-session';
-import flash from 'connect-flash';
-import router from './src/routes.js';
+const express = require('express');
+const session = require('express-session');
+const flash = require('connect-flash');
+const router = require('./src/routes.js');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
