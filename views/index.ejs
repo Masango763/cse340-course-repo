@@ -2,20 +2,27 @@
 <%- include('partials/flash') %>
 <div class="service-hub vertical-stack">
   <h1>CSE 340 Service Hub</h1>
-  
+
   <section class="hub-section">
     <h2>Organizations</h2>
-    <p><a href="/organizations">View Partner Organizations</a> | <a href="/new-organization">Add New Organization</a></p>
+    <p><a href="/organizations">View Partner Organizations</a>
+    <% if (user && user.role_name === 'admin') { %> | <a href="/new-organization">Add New Organization</a><% } %></p>
   </section>
 
   <section class="hub-section">
     <h2>Projects</h2>
-    <p><a href="/new-project">Add New Service Project</a></p>
+    <p><a href="/projects">View Service Projects</a>
+    <% if (user && user.role_name === 'admin') { %> | <a href="/new-project">Add New Service Project</a><% } %></p>
   </section>
 
   <section class="hub-section">
     <h2>Categories</h2>
-    <p><a href="/categories">View Categories</a> | <a href="/new-category">Add New Category</a></p>
+    <p><a href="/categories">View Categories</a>
+    <% if (user && user.role_name === 'admin') { %> | <a href="/new-category">Add New Category</a><% } %></p>
   </section>
+
+  <% if (isLoggedIn) { %>
+    <p><a href="/dashboard">My Dashboard</a></p>
+  <% } %>
 </div>
 <%- include('partials/footer') %>

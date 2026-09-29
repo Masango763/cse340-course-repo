@@ -1,11 +1,11 @@
-const db = require('./db.js');
-const bcrypt = require('bcrypt');
+import db from './db.js';
+import bcrypt from 'bcrypt';
 
-const createUser = async (name, email, passwordHash) => {
+export const createUser = async (name, email, passwordHash) => {
     const default_role = 'user';
     const query = `
-        INSERT INTO users (name, email, password_hash, role_id) 
-        VALUES ($1, $2, $3, (SELECT role_id FROM roles WHERE role_name = $4)) 
+        INSERT INTO users (name, email, password_hash, role_id)
+        VALUES ($1, $2, $3, (SELECT role_id FROM roles WHERE role_name = $4))
         RETURNING user_id
     `;
     const queryParams = [name, email, passwordHash, default_role];
@@ -17,9 +17,9 @@ const createUser = async (name, email, passwordHash) => {
     return result.rows[0].user_id;
 };
 
-const findUserByEmail = async (email) => {
+export const findUserByEmail = async (email) => {
     const query = `
-        SELECT u.user_id, u.name, u.email, u.password_hash, r.role_name 
+        SELECT u.user_id, u.name, u.email, u.password_hash, r.role_name
         FROM users u
         JOIN roles r ON u.role_id = r.role_id
         WHERE u.email = $1
@@ -31,11 +31,11 @@ const findUserByEmail = async (email) => {
     return result.rows[0];
 };
 
-const verifyPassword = async (password, passwordHash) => {
+export const verifyPassword = async (password, passwordHash) => {
     return bcrypt.compare(password, passwordHash);
 };
 
-const authenticateUser = async (email, password) => {
+export const authenticateUser = async (email, password) => {
     const user = await findUserByEmail(email);
     if (!user) return null;
 
@@ -46,21 +46,13 @@ const authenticateUser = async (email, password) => {
     return safeUser;
 };
 
-const getAllUsers = async () => {
+export const getAllUsers = async () => {
     const query = `
-        SELECT u.user_id, u.name, u.email, r.role_name, u.created_at 
-        FROM users u 
-        JOIN roles r ON u.role_id = r.role_id 
+        SELECT u.user_id, u.name, u.email, r.role_name, u.created_at
+        FROM users u
+        JOIN roles r ON u.role_id = r.role_id
         ORDER BY u.created_at DESC
     `;
     const result = await db.query(query);
     return result.rows;
-};
-
-module.exports = {
-    createUser,
-    findUserByEmail,
-    verifyPassword,
-    authenticateUser,
-    getAllUsers
 };

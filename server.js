@@ -8,6 +8,7 @@ import { getAllOrganizations, getOrganizationById, getProjectsByOrganizationId }
 import { getAllProjects, getProjectById, getCategoriesForProject } from './src/models/projects.js';
 import { getAllCategories, getCategoryById } from './src/models/categories.js';
 import crudRouter from './src/routes/crudRoutes.js';
+import authRouter from './src/routes/authRoutes.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -36,6 +37,13 @@ app.use((req, res, next) => {
     };
     res.locals.flash = req.session.flash || {};
     delete req.session.flash;
+    next();
+});
+
+// Make login state available to every view
+app.use((req, res, next) => {
+    res.locals.isLoggedIn = !!(req.session && req.session.user);
+    res.locals.user = (req.session && req.session.user) || null;
     next();
 });
 
@@ -95,6 +103,7 @@ app.get('/category/:id', async (req, res, next) => {
 });
 
 // Insert/update routes (Week 04) live in their own router
+app.use('/', authRouter);
 app.use('/', crudRouter);
 
 app.use((req, res) => {

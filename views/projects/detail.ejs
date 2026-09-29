@@ -8,5 +8,5 @@
 <% if (categories.length > 0) { %>
   <ul><% categories.forEach(c => { %><li><%= c.name %></li><% }) %></ul>
 <% } else { %><p>No categories assigned.</p><% } %>
-<p><a href="/edit-project/<%= project.id %>">Edit this project</a></p>
+<% if (user && user.role_name === 'admin') { %><p><a href="/edit-project/<%= project.id %>">Edit this project</a></p><% } %>
 <%- include('../partials/footer') %>

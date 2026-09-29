@@ -1,7 +1,7 @@
 <%- include('../partials/header') %>
 <%- include('../partials/flash') %>
 <h2>Service Project Categories</h2>
-<p><a href="/new-category">+ Add New Category</a></p>
+<% if (user && user.role_name === 'admin') { %><p><a href="/new-category">+ Add New Category</a></p><% } %>
 <%
   const categoryImages = {
     'Community Development': '/images/categories/community-development.jpg',
