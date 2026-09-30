@@ -17,7 +17,7 @@ export const requireRole = (role) => {
         }
         if (req.session.user.role_name !== role) {
             req.flash('error', 'You do not have permission to access this page.');
-            return res.redirect('/');
+            return res.redirect('/dashboard');
         }
         next();
     };
@@ -87,7 +87,7 @@ export const showDashboard = (req, res) => {
 export const showUsersList = async (req, res, next) => {
     try {
         const users = await getAllUsers();
-        res.render('admin/users', {
+        res.render('users', {
             title: 'Manage Users',
             users
         });
