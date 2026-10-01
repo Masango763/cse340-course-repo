@@ -1,4 +1,4 @@
-const requireLogin = (req, res, next) => {
+export const requireLogin = (req, res, next) => {
     if (req.session && req.session.user) {
         return next();
     }
@@ -6,7 +6,7 @@ const requireLogin = (req, res, next) => {
     res.redirect('/login');
 };
 
-const requireRole = (role) => {
+export const requireRole = (role) => {
     return (req, res, next) => {
         if (!req.session || !req.session.user) {
             req.flash('error', 'Please log in to continue.');
@@ -21,5 +21,3 @@ const requireRole = (role) => {
         next();
     };
 };
-
-module.exports = { requireLogin, requireRole };

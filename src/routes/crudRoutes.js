@@ -1,4 +1,4 @@
-import { requireRole } from '../controllers/users.js';
+import { requireRole } from '../middleware/authMiddleware.js';
 import express from 'express';
 import {
   showNewProjectForm, processNewProject,
