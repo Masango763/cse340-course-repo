@@ -19,7 +19,16 @@ export async function processNewCategory(req, res, next) {
     const id = await createCategory(req.body.name.trim());
     req.flash('success', 'Category created successfully!');
     res.redirect(`/category/${id}`);
-  } catch (err) { next(err); }
+  } catch (err) {
+    if (err.code === '23505') {
+      return res.status(400).render('categories/new', {
+        title: 'Add New Category',
+        values: req.body,
+        errors: [{ msg: 'A category with that name already exists.' }]
+      });
+    }
+    next(err);
+  }
 }
 
 export async function showEditCategoryForm(req, res, next) {
@@ -42,5 +51,15 @@ export async function processEditCategory(req, res, next) {
     await updateCategory(id, req.body.name.trim());
     req.flash('success', 'Category updated successfully!');
     res.redirect(`/category/${id}`);
-  } catch (err) { next(err); }
+  } catch (err) {
+    if (err.code === '23505') {
+      return res.status(400).render('categories/edit', {
+        title: 'Edit Category',
+        category: { id: req.params.id },
+        values: req.body,
+        errors: [{ msg: 'A category with that name already exists.' }]
+      });
+    }
+    next(err);
+  }
 }
