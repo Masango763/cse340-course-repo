@@ -1,27 +1,16 @@
 import { Router } from 'express';
-import { getAllOrganizations, getOrganizationById, getProjectsByOrganizationId, addOrganization, updateOrganization, deleteOrganization } from '../models/organizations.js';
-import { getAllProjects, getProjectById, getCategoriesForProject, addProject, updateProject, deleteProject } from '../models/projects.js';
-import { getAllCategories, getCategoryById, addCategory, updateCategory, deleteCategory } from '../models/categories.js';
+import { getAllOrganizations, getOrganizationById, getProjectsByOrganizationId } from '../models/organizations.js';
+import { getAllProjects, getProjectById, getCategoriesForProject } from '../models/projects.js';
+import { getAllCategories, getCategoryById } from '../models/categories.js';
 
 const router = Router();
-
-// Middleware to check if user is admin for CRUD actions
-function requireAdmin(req, res, next) {
-    if (req.session && req.session.user && req.session.user.role_name === 'admin') {
-        return next();
-    }
-    req.flash('error', 'You must be an administrator to perform this action.');
-    return res.redirect('/login');
-}
 
 // Home
 router.get('/', (req, res) => {
     res.render('index', { title: 'Home' });
 });
 
-// ==========================================
-// ORGANIZATIONS (CRUD)
-// ==========================================
+// Organizations Routes
 router.get('/organizations', async (req, res, next) => {
     try {
         const organizations = await getAllOrganizations();
@@ -38,9 +27,7 @@ router.get('/organization/:id', async (req, res, next) => {
     } catch (err) { next(err); }
 });
 
-// ==========================================
-// PROJECTS (CRUD)
-// ==========================================
+// Projects Routes
 router.get('/projects', async (req, res, next) => {
     try {
         const projects = await getAllProjects();
@@ -57,9 +44,7 @@ router.get('/project/:id', async (req, res, next) => {
     } catch (err) { next(err); }
 });
 
-// ==========================================
-// CATEGORIES (CRUD)
-// ==========================================
+// Categories Routes
 router.get('/categories', async (req, res, next) => {
     try {
         const categories = await getAllCategories();
