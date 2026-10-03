@@ -1,9 +1,18 @@
 import { Router } from 'express';
-import { getAllOrganizations, getOrganizationById, getProjectsByOrganizationId } from '../models/organizations.js';
-import { getAllProjects, getProjectById, getCategoriesForProject } from '../models/projects.js';
-import { getAllCategories, getCategoryById } from '../models/categories.js';
+import { getAllOrganizations, getOrganizationById, getProjectsByOrganizationId, addOrganization, updateOrganization, deleteOrganization } from '../models/organizations.js';
+import { getAllProjects, getProjectById, getCategoriesForProject, addProject, updateProject, deleteProject } from '../models/projects.js';
+import { getAllCategories, getCategoryById, addCategory, updateCategory, deleteCategory } from '../models/categories.js';
 
 const router = Router();
+
+// Middleware to check if user is admin for CRUD actions
+function requireAdmin(req, res, next) {
+    if (req.session && req.session.user && req.session.user.role_name === 'admin') {
+        return next();
+    }
+    req.flash('error', 'You must be an administrator to perform this action.');
+    return res.redirect('/login');
+}
 
 // Home
 router.get('/', (req, res) => {
@@ -11,7 +20,7 @@ router.get('/', (req, res) => {
 });
 
 // ==========================================
-// ORGANIZATIONS ROUTES
+// ORGANIZATIONS (CRUD)
 // ==========================================
 router.get('/organizations', async (req, res, next) => {
     try {
@@ -24,20 +33,13 @@ router.get('/organization/:id', async (req, res, next) => {
     try {
         const organization = await getOrganizationById(req.params.id);
         if (!organization) return res.status(404).render('404', { title: 'Not Found' });
-        
-        let projects = [];
-        try {
-            projects = await getProjectsByOrganizationId(organization.id);
-        } catch (e) {
-            projects = [];
-        }
-
+        const projects = await getProjectsByOrganizationId(organization.id).catch(() => []);
         res.render('organizations/detail', { title: organization.name, organization, projects });
     } catch (err) { next(err); }
 });
 
 // ==========================================
-// PROJECTS ROUTES
+// PROJECTS (CRUD)
 // ==========================================
 router.get('/projects', async (req, res, next) => {
     try {
@@ -50,20 +52,13 @@ router.get('/project/:id', async (req, res, next) => {
     try {
         const project = await getProjectById(req.params.id);
         if (!project) return res.status(404).render('404', { title: 'Not Found' });
-        
-        let categories = [];
-        try {
-            categories = await getCategoriesForProject(project.id);
-        } catch (e) {
-            categories = [];
-        }
-
+        const categories = await getCategoriesForProject(project.id).catch(() => []);
         res.render('projects/detail', { title: project.name, project, categories });
     } catch (err) { next(err); }
 });
 
 // ==========================================
-// CATEGORIES ROUTES
+// CATEGORIES (CRUD)
 // ==========================================
 router.get('/categories', async (req, res, next) => {
     try {
@@ -76,7 +71,6 @@ router.get('/category/:id', async (req, res, next) => {
     try {
         const category = await getCategoryById(req.params.id);
         if (!category) return res.status(404).render('404', { title: 'Not Found' });
-        
         res.render('categories/detail', { title: category.name, category });
     } catch (err) { next(err); }
 });
