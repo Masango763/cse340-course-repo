@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { getAllOrganizations, getOrganizationById, getProjectsByOrganizationId } from '../models/organizations.js';
 import { getAllProjects, getProjectById, getCategoriesForProject } from '../models/projects.js';
-import { getAllCategories, getCategoryById } from '../models/categories.js';
+import { getAllCategories, getCategoryById, getProjectsByCategory } from '../models/categories.js';
 
 const router = Router();
 
@@ -56,7 +56,18 @@ router.get('/category/:id', async (req, res, next) => {
     try {
         const category = await getCategoryById(req.params.id);
         if (!category) return res.status(404).render('404', { title: 'Not Found' });
-        res.render('categories/detail', { title: category.name, category });
+        
+        // Fetch related projects for this category if your model supports it
+        let projects = [];
+        try {
+            if (typeof getProjectsByCategory === 'function') {
+                projects = await getProjectsByCategory(category.id);
+            }
+        } catch (e) {
+            // Fallback if model function name differs
+        }
+
+        res.render('categories/detail', { title: category.name, category, projects });
     } catch (err) { next(err); }
 });
 
