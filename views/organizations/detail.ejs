@@ -1,7 +1,10 @@
 <%- include('../partials/header') %>
 <%- include('../partials/flash') %>
 <h2><%= organization.name %></h2>
-<p><small>Location: <%= organization.location %></small></p>
+<% if (organization.logo_url) { %>
+  <p><img src="<%= organization.logo_url %>" alt="<%= organization.name %> logo" style="max-width:150px; max-height:100px;" onerror="this.style.display='none'"></p>
+<% } %>
+<p><small>Email: <%= organization.email %></small></p>
 <p><%= organization.description %></p>
 <% if (user && user.role_name === 'admin') { %><p><a href="/edit-organization/<%= organization.id %>">Edit this organization</a></p><% } %>
 <h3>Service Projects</h3>

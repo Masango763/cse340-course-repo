@@ -6,6 +6,7 @@ import 'dotenv/config';
 
 import crudRouter from './src/routes/crudRoutes.js';
 import authRouter from './src/routes/authRoutes.js';
+import { runMigrations } from './src/database/migrate.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -37,14 +38,12 @@ app.use((req, res, next) => {
     next();
 });
 
-// Make login state available to every view
 app.use((req, res, next) => {
     res.locals.isLoggedIn = !!(req.session && req.session.user);
     res.locals.user = (req.session && req.session.user) || null;
     next();
 });
 
-// Mount modular routers (NO app.get or app.post definitions here!)
 app.use('/', authRouter);
 app.use('/', crudRouter);
 
@@ -60,6 +59,8 @@ app.use((err, req, res, next) => {
     });
 });
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+runMigrations().then(() => {
+    app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`);
+    });
 });

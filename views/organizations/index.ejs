@@ -16,10 +16,10 @@
     <% organizations.forEach(org => { %>
       <li class="row-card">
         <a href="/organization/<%= org.id %>" class="row-card-link">
-          <img src="<%= orgImages[org.name] || '/images/placeholder.jpg' %>" alt="<%= org.name %>" width="60" height="40" class="row-thumb" />
+          <img src="<%= org.logo_url || orgImages[org.name] || '/images/placeholder.jpg' %>" alt="<%= org.name %>" width="60" height="40" class="row-thumb" onerror="this.src='/images/placeholder.jpg'" />
           <div>
             <span class="row-title"><%= org.name %></span>
-            <p class="row-subtitle">- <%= org.location %></p>
+            <% if (org.email) { %><p class="row-subtitle"><%= org.email %></p><% } %>
           </div>
         </a>
       </li>
