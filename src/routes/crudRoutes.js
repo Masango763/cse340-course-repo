@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { getAllOrganizations, getOrganizationById, getProjectsByOrganizationId } from '../models/organizations.js';
 import { getAllProjects, getProjectById, getCategoriesForProject } from '../models/projects.js';
-import { getAllCategories, getCategoryById, getProjectsByCategory } from '../models/categories.js';
+import { getAllCategories, getCategoryById } from '../models/categories.js';
 
 const router = Router();
 
@@ -10,7 +10,9 @@ router.get('/', (req, res) => {
     res.render('index', { title: 'Home' });
 });
 
-// Organizations
+// ==========================================
+// ORGANIZATIONS ROUTES
+// ==========================================
 router.get('/organizations', async (req, res, next) => {
     try {
         const organizations = await getAllOrganizations();
@@ -22,12 +24,21 @@ router.get('/organization/:id', async (req, res, next) => {
     try {
         const organization = await getOrganizationById(req.params.id);
         if (!organization) return res.status(404).render('404', { title: 'Not Found' });
-        const projects = await getProjectsByOrganizationId(organization.id);
+        
+        let projects = [];
+        try {
+            projects = await getProjectsByOrganizationId(organization.id);
+        } catch (e) {
+            projects = [];
+        }
+
         res.render('organizations/detail', { title: organization.name, organization, projects });
     } catch (err) { next(err); }
 });
 
-// Projects
+// ==========================================
+// PROJECTS ROUTES
+// ==========================================
 router.get('/projects', async (req, res, next) => {
     try {
         const projects = await getAllProjects();
@@ -39,12 +50,21 @@ router.get('/project/:id', async (req, res, next) => {
     try {
         const project = await getProjectById(req.params.id);
         if (!project) return res.status(404).render('404', { title: 'Not Found' });
-        const categories = await getCategoriesForProject(project.id);
+        
+        let categories = [];
+        try {
+            categories = await getCategoriesForProject(project.id);
+        } catch (e) {
+            categories = [];
+        }
+
         res.render('projects/detail', { title: project.name, project, categories });
     } catch (err) { next(err); }
 });
 
-// Categories
+// ==========================================
+// CATEGORIES ROUTES
+// ==========================================
 router.get('/categories', async (req, res, next) => {
     try {
         const categories = await getAllCategories();
@@ -57,17 +77,7 @@ router.get('/category/:id', async (req, res, next) => {
         const category = await getCategoryById(req.params.id);
         if (!category) return res.status(404).render('404', { title: 'Not Found' });
         
-        // Fetch related projects for this category if your model supports it
-        let projects = [];
-        try {
-            if (typeof getProjectsByCategory === 'function') {
-                projects = await getProjectsByCategory(category.id);
-            }
-        } catch (e) {
-            // Fallback if model function name differs
-        }
-
-        res.render('categories/detail', { title: category.name, category, projects });
+        res.render('categories/detail', { title: category.name, category });
     } catch (err) { next(err); }
 });
 
