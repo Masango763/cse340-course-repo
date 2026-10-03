@@ -13,6 +13,6 @@ router.get('/login', showLoginForm);
 router.post('/login', processLoginForm);
 router.get('/logout', processLogout);
 router.get('/dashboard', requireLogin, showDashboard);
-router.get('/users', requireRole('admin'), showUsersPage);
+router.get('/users', requireLogin, requireRole('admin'), showUsersPage);
 
 export default router;

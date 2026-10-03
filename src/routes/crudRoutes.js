@@ -2,6 +2,23 @@ import { Router } from 'express';
 import { getAllOrganizations, getOrganizationById, getProjectsByOrganizationId } from '../models/organizations.js';
 import { getAllProjects, getProjectById, getCategoriesForProject } from '../models/projects.js';
 import { getAllCategories, getCategoryById } from '../models/categories.js';
+import { requireLogin, requireRole } from '../middleware/authMiddleware.js';
+
+import {
+    showNewOrganizationForm, processNewOrganization,
+    showEditOrganizationForm, processEditOrganizationForm,
+    organizationValidation
+} from '../controllers/organizations.js';
+import {
+    showNewProjectForm, processNewProject,
+    showEditProjectForm, processEditProjectForm,
+    projectValidation
+} from '../controllers/projects.js';
+import {
+    showNewCategoryForm, processNewCategory,
+    showEditCategoryForm, processEditCategory,
+    categoryValidation
+} from '../controllers/categories.js';
 
 const router = Router();
 
@@ -27,6 +44,11 @@ router.get('/organization/:id', async (req, res, next) => {
     } catch (err) { next(err); }
 });
 
+router.get('/new-organization', requireLogin, requireRole('admin'), showNewOrganizationForm);
+router.post('/new-organization', requireLogin, requireRole('admin'), organizationValidation, processNewOrganization);
+router.get('/edit-organization/:id', requireLogin, requireRole('admin'), showEditOrganizationForm);
+router.post('/edit-organization/:id', requireLogin, requireRole('admin'), organizationValidation, processEditOrganizationForm);
+
 // Projects Routes
 router.get('/projects', async (req, res, next) => {
     try {
@@ -44,6 +66,11 @@ router.get('/project/:id', async (req, res, next) => {
     } catch (err) { next(err); }
 });
 
+router.get('/new-project', requireLogin, requireRole('admin'), showNewProjectForm);
+router.post('/new-project', requireLogin, requireRole('admin'), projectValidation, processNewProject);
+router.get('/edit-project/:id', requireLogin, requireRole('admin'), showEditProjectForm);
+router.post('/edit-project/:id', requireLogin, requireRole('admin'), projectValidation, processEditProjectForm);
+
 // Categories Routes
 router.get('/categories', async (req, res, next) => {
     try {
@@ -59,5 +86,10 @@ router.get('/category/:id', async (req, res, next) => {
         res.render('categories/detail', { title: category.name, category });
     } catch (err) { next(err); }
 });
+
+router.get('/new-category', requireLogin, requireRole('admin'), showNewCategoryForm);
+router.post('/new-category', requireLogin, requireRole('admin'), categoryValidation, processNewCategory);
+router.get('/edit-category/:id', requireLogin, requireRole('admin'), showEditCategoryForm);
+router.post('/edit-category/:id', requireLogin, requireRole('admin'), categoryValidation, processEditCategory);
 
 export default router;
