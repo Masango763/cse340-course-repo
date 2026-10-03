@@ -22,12 +22,11 @@ import {
 
 const router = Router();
 
-// Home
 router.get('/', (req, res) => {
     res.render('index', { title: 'Home' });
 });
 
-// Organizations Routes
+// Organizations
 router.get('/organizations', async (req, res, next) => {
     try {
         const organizations = await getAllOrganizations();
@@ -49,7 +48,7 @@ router.post('/new-organization', requireLogin, requireRole('admin'), organizatio
 router.get('/edit-organization/:id', requireLogin, requireRole('admin'), showEditOrganizationForm);
 router.post('/edit-organization/:id', requireLogin, requireRole('admin'), organizationValidation, processEditOrganizationForm);
 
-// Projects Routes
+// Projects
 router.get('/projects', async (req, res, next) => {
     try {
         const projects = await getAllProjects();
@@ -71,7 +70,7 @@ router.post('/new-project', requireLogin, requireRole('admin'), projectValidatio
 router.get('/edit-project/:id', requireLogin, requireRole('admin'), showEditProjectForm);
 router.post('/edit-project/:id', requireLogin, requireRole('admin'), projectValidation, processEditProjectForm);
 
-// Categories Routes
+// Categories
 router.get('/categories', async (req, res, next) => {
     try {
         const categories = await getAllCategories();

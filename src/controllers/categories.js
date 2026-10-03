@@ -22,8 +22,7 @@ export async function processNewCategory(req, res, next) {
   } catch (err) {
     if (err.code === '23505') {
       return res.status(400).render('categories/new', {
-        title: 'Add New Category',
-        values: req.body,
+        title: 'Add New Category', values: req.body,
         errors: [{ msg: 'A category with that name already exists.' }]
       });
     }
@@ -54,9 +53,7 @@ export async function processEditCategory(req, res, next) {
   } catch (err) {
     if (err.code === '23505') {
       return res.status(400).render('categories/edit', {
-        title: 'Edit Category',
-        category: { id: req.params.id },
-        values: req.body,
+        title: 'Edit Category', category: { id: req.params.id }, values: req.body,
         errors: [{ msg: 'A category with that name already exists.' }]
       });
     }
