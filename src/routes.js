@@ -1,30 +1,45 @@
 import { Router } from 'express';
-import { getAllOrganizations, getOrganizationById, getProjectsByOrganizationId } from '../models/organizations.js';
-import { getAllProjects, getProjectById, getCategoriesForProject } from '../models/projects.js';
-import { getAllCategories, getCategoryById } from '../models/categories.js';
-import { requireLogin, requireRole } from '../middleware/authMiddleware.js';
 
 import {
     showNewOrganizationForm, processNewOrganization,
     showEditOrganizationForm, processEditOrganizationForm,
     organizationValidation
-} from '../controllers/organizations.js';
+} from './controllers/organizations.js';
 import {
     showNewProjectForm, processNewProject,
     showEditProjectForm, processEditProjectForm,
     projectValidation
-} from '../controllers/projects.js';
+} from './controllers/projects.js';
 import {
     showNewCategoryForm, processNewCategory,
     showEditCategoryForm, processEditCategory,
     categoryValidation
-} from '../controllers/categories.js';
+} from './controllers/categories.js';
+import {
+    showUserRegistrationForm, processUserRegistrationForm,
+    showLoginForm, processLoginForm, processLogout,
+    requireLogin, requireRole, showDashboard, showUsersPage
+} from './controllers/users.js';
+
+import { getAllOrganizations, getOrganizationById, getProjectsByOrganizationId } from './models/organizations.js';
+import { getAllProjects, getProjectById, getCategoriesForProject } from './models/projects.js';
+import { getAllCategories, getCategoryById } from './models/categories.js';
 
 const router = Router();
 
+// Home
 router.get('/', (req, res) => {
     res.render('index', { title: 'Home' });
 });
+
+// Auth
+router.get('/register', showUserRegistrationForm);
+router.post('/register', processUserRegistrationForm);
+router.get('/login', showLoginForm);
+router.post('/login', processLoginForm);
+router.get('/logout', processLogout);
+router.get('/dashboard', requireLogin, showDashboard);
+router.get('/users', requireLogin, requireRole('admin'), showUsersPage);
 
 // Organizations
 router.get('/organizations', async (req, res, next) => {

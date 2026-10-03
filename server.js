@@ -4,8 +4,7 @@ import { fileURLToPath } from 'url';
 import session from 'express-session';
 import 'dotenv/config';
 
-import crudRouter from './src/routes/crudRoutes.js';
-import authRouter from './src/routes/authRoutes.js';
+import router from './src/routes.js';
 import { runMigrations } from './src/database/migrate.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -44,8 +43,8 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use('/', authRouter);
-app.use('/', crudRouter);
+// Mount the single router (NO app.get or app.post definitions here!)
+app.use('/', router);
 
 app.use((req, res) => {
     res.status(404).render('404', { title: 'Page Not Found' });
