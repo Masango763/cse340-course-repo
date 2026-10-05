@@ -13,3 +13,23 @@
   <p><a href="/edit-project/<%= project.id %>">Edit this project</a></p>
 <% } %>
 <%- include('../partials/footer') %>
+
+<!-- W06 Volunteer Action Section -->
+<div class="volunteer-section" style="margin-top: 20px;">
+    <% if (locals.loggedin && locals.accountData) { %>
+        <% if (locals.isVolunteering) { %>
+            <p class="volunteer-active-notice" style="color: green; font-weight: bold;">You are volunteering for this project.</p>
+            <form action="/projects/unvolunteer" method="POST">
+                <input type="hidden" name="project_id" value="<%= project.project_id %>">
+                <button type="submit" class="btn-danger">Remove Volunteer Status</button>
+            </form>
+        <% } else { %>
+            <form action="/projects/volunteer" method="POST">
+                <input type="hidden" name="project_id" value="<%= project.project_id %>">
+                <button type="submit" class="btn-primary">Volunteer for this Project</button>
+            </form>
+        <% } %>
+    <% } else { %>
+        <p><a href="/account/login">Log in</a> to volunteer for this project.</p>
+    <% } %>
+</div>

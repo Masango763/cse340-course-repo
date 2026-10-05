@@ -72,3 +72,8 @@ router.get('/edit-category/:id', requireLogin, requireRole('admin'), showEditCat
 router.post('/edit-category/:id', requireLogin, requireRole('admin'), categoryValidation, processEditCategory);
 
 export default router;
+
+// W06 Volunteering Routes
+router.post("/projects/volunteer", requireLogin, projectController.registerVolunteer);
+router.post("/projects/unvolunteer", requireLogin, projectController.unregisterVolunteer);
+router.get("/account/volunteering", requireLogin, projectController.buildVolunteeringDashboard);
