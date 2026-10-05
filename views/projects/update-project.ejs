@@ -6,16 +6,16 @@
 <% } %>
 <form method="POST" action="/edit-project/<%= project.id %>" class="form">
   <label for="name">Project Name</label>
-  <input type="text" id="name" name="name" value="<%= values.name %>">
+  <input type="text" id="name" name="name" required maxlength="255" value="<%= values.name %>">
 
   <label for="description">Description</label>
-  <textarea id="description" name="description" rows="4"><%= values.description %></textarea>
+  <textarea id="description" name="description" rows="4" required><%= values.description %></textarea>
 
   <label for="due_date">Due Date</label>
-  <input type="date" id="due_date" name="due_date" value="<%= values.due_date %>">
+  <input type="date" id="due_date" name="due_date" required value="<%= values.due_date %>">
 
   <label for="organization_id">Organization</label>
-  <select id="organization_id" name="organization_id">
+  <select id="organization_id" name="organization_id" required>
     <% organizations.forEach(org => { %>
       <option value="<%= org.id %>" <%= String(values.organization_id) === String(org.id) ? 'selected' : '' %>><%= org.name %></option>
     <% }) %>

@@ -255,3 +255,48 @@ export async function processEditProjectForm(
     next(err);
   }
 }
+
+export async function showProjectsPage(req, res, next) {
+  try {
+    const projects = await getAllProjects();
+    res.render('projects/index', { title: 'Service Projects', projects });
+  } catch (err) { next(err); }
+}
+
+export async function showProjectDetailsPage(req, res, next) {
+  try {
+    const project = await getProjectById(req.params.id);
+    if (!project) return res.status(404).render('404', { title: 'Not Found' });
+    const categories = await getCategoriesForProject(project.id);
+    res.render('projects/detail', { title: project.name, project, categories });
+  } catch (err) { next(err); }
+}
+
+export async function showAssignCategoriesForm(req, res, next) {
+  try {
+    const project = await getProjectById(req.params.id);
+    if (!project) return res.status(404).render('404', { title: 'Not Found' });
+    const allCategories = await getAllCategories();
+    const assigned = await getCategoriesForProject(project.id);
+    res.render('projects/assign-categories', {
+      title: 'Assign Categories',
+      project,
+      allCategories,
+      assignedIds: assigned.map(c => c.id)
+    });
+  } catch (err) { next(err); }
+}
+
+export async function processAssignCategories(req, res, next) {
+  try {
+    const projectId = req.params.id;
+    const project = await getProjectById(projectId);
+    if (!project) return res.status(404).render('404', { title: 'Not Found' });
+    const selectedIds = [
+      ...new Set([].concat(req.body.category_ids || []).map(Number).filter(Number.isInteger))
+    ];
+    await setProjectCategories(projectId, selectedIds);
+    req.flash('success', 'Project categories updated successfully!');
+    res.redirect(`/project/${projectId}`);
+  } catch (err) { next(err); }
+}

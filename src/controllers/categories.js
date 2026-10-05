@@ -1,5 +1,5 @@
 import { body, validationResult } from 'express-validator';
-import { getCategoryById, createCategory, updateCategory } from '../models/categories.js';
+import { getAllCategories, getCategoryById, createCategory, updateCategory } from '../models/categories.js';
 
 export const categoryValidation = [
   body('name').trim().notEmpty().withMessage('Category name is required.')
@@ -59,4 +59,19 @@ export async function processEditCategory(req, res, next) {
     }
     next(err);
   }
+}
+
+export async function showCategoriesPage(req, res, next) {
+  try {
+    const categories = await getAllCategories();
+    res.render('categories/index', { title: 'Service Project Categories', categories });
+  } catch (err) { next(err); }
+}
+
+export async function showCategoryDetailsPage(req, res, next) {
+  try {
+    const category = await getCategoryById(req.params.id);
+    if (!category) return res.status(404).render('404', { title: 'Not Found' });
+    res.render('categories/detail', { title: category.name, category });
+  } catch (err) { next(err); }
 }

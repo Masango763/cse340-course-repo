@@ -79,12 +79,12 @@ CREATE TABLE project_categories (
 -- -----------------------------
 -- Seed Data: Organizations (5)
 -- -----------------------------
-INSERT INTO organizations (name, description, email) VALUES
-('CodeCraft Youth Initiative', 'Teaching youth programming and web development skills.', 'contact@codecraftyouth.org'),
-('OpenCivic Tech Alliance', 'Building open source civic tools for local government.', 'info@opencivictech.org'),
-('Senior Digital Bridge', 'Helping senior citizens bridge the digital divide.', 'hello@seniordigitalbridge.org'),
-('Green Earth Alliance', 'Promoting environmental sustainability through technology.', 'contact@greenearthalliance.org'),
-('HealthAccess Community', 'Expanding telehealth access in rural regions.', 'info@healthaccess.org');
+INSERT INTO organizations (name, description, email, logo_url) VALUES
+('CodeCraft Youth Initiative', 'Teaching youth programming and web development skills.', 'contact@codecraftyouth.org', 'https://cse340-course-repo-8vt3.onrender.com/images/organizations/codecraft-youth-initiative.jpg'),
+('OpenCivic Tech Alliance', 'Building open source civic tools for local government.', 'info@opencivictech.org', 'https://cse340-course-repo-8vt3.onrender.com/images/organizations/opencivic-tech-alliance.jpg'),
+('Senior Digital Bridge', 'Helping senior citizens bridge the digital divide.', 'hello@seniordigitalbridge.org', 'https://cse340-course-repo-8vt3.onrender.com/images/organizations/senior-digital-bridge.jpg'),
+('Green Earth Alliance', 'Promoting environmental sustainability through technology.', 'contact@greenearthalliance.org', 'https://cse340-course-repo-8vt3.onrender.com/images/organizations/green-earth-alliance.jpg'),
+('HealthAccess Community', 'Expanding telehealth access in rural regions.', 'info@healthaccess.org', 'https://cse340-course-repo-8vt3.onrender.com/images/organizations/healthaccess-community.jpg');
 
 -- -----------------------------
 -- Seed Data: Categories (5)

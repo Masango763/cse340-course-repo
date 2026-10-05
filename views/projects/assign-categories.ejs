@@ -1,0 +1,18 @@
+<%- include('../partials/header') %>
+<%- include('../partials/flash') %>
+<h2>Assign Categories</h2>
+<p>Project: <strong><%= project.name %></strong></p>
+<form method="POST" action="/assign-categories/<%= project.id %>" class="form">
+  <fieldset>
+    <legend>Categories</legend>
+    <% allCategories.forEach(cat => { %>
+      <label class="checkbox-label">
+        <input type="checkbox" name="category_ids" value="<%= cat.id %>" <%= assignedIds.includes(cat.id) ? 'checked' : '' %>>
+        <%= cat.name %>
+      </label>
+    <% }) %>
+  </fieldset>
+  <button type="submit">Save Categories</button>
+</form>
+<p><a href="/project/<%= project.id %>">Back to project</a></p>
+<%- include('../partials/footer') %>
