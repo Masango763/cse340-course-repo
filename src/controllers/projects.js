@@ -48,14 +48,9 @@ export async function showNewProjectForm(req, res, next) {
     const organizations =
       await getAllOrganizations();
 
-    const allCategories =
-      await getAllCategories();
-
     res.render('projects/new', {
       title: 'Add New Project',
       organizations,
-      allCategories,
-      selectedIds: [],
       values: {}
     });
   } catch (err) {
@@ -67,29 +62,15 @@ export async function processNewProject(req, res, next) {
   try {
     const errors = validationResult(req);
 
-    const selectedIds = [
-      ...new Set(
-        []
-          .concat(req.body.category_ids || [])
-          .map(Number)
-          .filter(Number.isInteger)
-      )
-    ];
-
     if (!errors.isEmpty()) {
       const organizations =
         await getAllOrganizations();
-
-      const allCategories =
-        await getAllCategories();
 
       return res.status(400).render(
         'projects/new',
         {
           title: 'Add New Project',
           organizations,
-          allCategories,
-          selectedIds,
           values: req.body,
           errors: errors.array()
         }
@@ -110,11 +91,6 @@ export async function processNewProject(req, res, next) {
         due_date,
         organization_id
       });
-
-    await setProjectCategories(
-      projectId,
-      selectedIds
-    );
 
     req.flash(
       'success',
