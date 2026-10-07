@@ -40,6 +40,7 @@ ON CONFLICT (role_name) DO NOTHING;
 -- always match this file exactly (this is also how the
 -- database structure is graded, per the assignment).
 -- -----------------------------
+DROP TABLE IF EXISTS project_volunteers CASCADE;
 DROP TABLE IF EXISTS project_categories CASCADE;
 DROP TABLE IF EXISTS projects CASCADE;
 DROP TABLE IF EXISTS categories CASCADE;
@@ -164,3 +165,12 @@ INSERT INTO project_categories (project_id, category_id) VALUES
 (14, 3), (14, 5),
 -- Health Education SMS Program -> Healthcare, Technology, Community Development
 (15, 3), (15, 4), (15, 5);
+
+-- Junction table for volunteers (users <-> projects)
+CREATE TABLE IF NOT EXISTS project_volunteers (
+    volunteer_id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+    project_id INT NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (user_id, project_id)
+);

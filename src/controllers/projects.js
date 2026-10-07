@@ -16,6 +16,7 @@ import {
 import {
   getAllCategories
 } from '../models/categories.js';
+import { isUserVolunteering, getVolunteerCountForProject } from '../models/volunteers.js';
 
 export const projectValidation = [
   body('name')
@@ -244,7 +245,18 @@ export async function showProjectDetailsPage(req, res, next) {
     const project = await getProjectById(req.params.id);
     if (!project) return res.status(404).render('404', { title: 'Not Found' });
     const categories = await getCategoriesForProject(project.id);
-    res.render('projects/detail', { title: project.name, project, categories });
+    const volunteerCount = await getVolunteerCountForProject(project.id);
+    const isVolunteering = req.session.user
+      ? await isUserVolunteering(req.session.user.user_id, project.id)
+      : false;
+    res.render('projects/detail', {
+      title: project.name,
+      project,
+      categories,
+      volunteerCount,
+      isVolunteering,
+      user: req.session.user
+    });
   } catch (err) { next(err); }
 }
 

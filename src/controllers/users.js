@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import db from '../database/db.js';
 import { requireLogin, requireRole } from '../middleware/authMiddleware.js';
+import { getProjectsByVolunteer } from '../models/volunteers.js';
 
 export { requireLogin, requireRole };
 
@@ -90,13 +91,20 @@ export async function getUsers(req, res) {
     }
 }
 
-export async function showDashboard(req, res) {
-    res.render('dashboard', { 
-        title: 'Dashboard', 
-        user: req.session.user,
-        name: req.session.user?.name,
-        email: req.session.user?.email 
+export async function showDashboard(req, res, next) {
+  try {
+    const volunteerProjects = await getProjectsByVolunteer(req.session.user.user_id);
+
+    res.render('dashboard', {
+      title: 'Dashboard',
+      user: req.session.user,
+      name: req.session.user?.name,
+      email: req.session.user?.email,
+      volunteerProjects
     });
+  } catch (error) {
+    next(error);
+  }
 }
 
 export async function showUsersPage(req, res) {

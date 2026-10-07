@@ -4,12 +4,33 @@
 <p><strong>Organization:</strong> <a href="/organization/<%= project.organization_id %>"><%= project.organization_name %></a></p>
 <p><%= project.description %></p>
 <p><small>Due: <%= project.due_date ? new Date(project.due_date).toLocaleDateString() : 'N/A' %></small></p>
+
 <h3>Categories</h3>
 <% if (categories.length > 0) { %>
   <ul><% categories.forEach(c => { %><li><%= c.name %></li><% }) %></ul>
-<% } else { %><p>No categories assigned.</p><% } %>
+<% } else { %>
+  <p>No categories assigned.</p>
+<% } %>
+
 <% if (user && user.role_name === 'admin') { %>
   <p><a href="/assign-categories/<%= project.id %>">Update categories</a></p>
   <p><a href="/edit-project/<%= project.id %>">Edit this project</a></p>
+<% } %>
+
+<% if (user) { %>
+  <h3>Volunteering</h3>
+  <p><%= volunteerCount %> <%= volunteerCount === 1 ? 'person is' : 'people are' %> volunteering for this project.</p>
+  <% if (isVolunteering) { %>
+    <p><strong>You are volunteering for this project.</strong></p>
+    <form method="POST" action="/projects/unvolunteer" class="form">
+      <input type="hidden" name="project_id" value="<%= project.id %>">
+      <button type="submit">Remove Me as a Volunteer</button>
+    </form>
+  <% } else { %>
+    <form method="POST" action="/projects/volunteer" class="form">
+      <input type="hidden" name="project_id" value="<%= project.id %>">
+      <button type="submit">Volunteer for this Project</button>
+    </form>
+  <% } %>
 <% } %>
 <%- include('../partials/footer') %>

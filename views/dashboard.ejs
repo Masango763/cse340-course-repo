@@ -1,10 +1,30 @@
 <%- include('partials/header') %>
 <%- include('partials/flash') %>
-    <h1><%= title %></h1>
-    <h2>Dashboard</h2>
-    <p>Name: <%= name %></p>
-    <p>Username: <%= email %></p>
-    <% if (user && user.role_name === 'admin') { %>
-        <p><a href="/users">View Registered Users</a></p>
-    <% } %>
+<h1><%= title %></h1>
+<h2>Dashboard</h2>
+<p>Name: <%= name %></p>
+<p>Username: <%= email %></p>
+<% if (user && user.role_name === 'admin') { %>
+  <p><a href="/users">View Registered Users</a></p>
+<% } %>
+
+<h3>My Volunteer Projects</h3>
+<% if (volunteerProjects.length > 0) { %>
+  <ul class="row-list">
+    <% volunteerProjects.forEach(project => { %>
+      <li>
+        <h4><a href="/project/<%= project.id %>"><%= project.name %></a></h4>
+        <p><strong>Organization:</strong> <%= project.organization_name %></p>
+        <p><small>Due: <%= project.due_date ? new Date(project.due_date).toLocaleDateString() : 'N/A' %></small></p>
+        <form method="POST" action="/projects/unvolunteer" class="form">
+          <input type="hidden" name="project_id" value="<%= project.id %>">
+          <input type="hidden" name="return_to" value="dashboard">
+          <button type="submit">Remove Me as a Volunteer</button>
+        </form>
+      </li>
+    <% }) %>
+  </ul>
+<% } else { %>
+  <p>You have not signed up to volunteer for any projects yet. <a href="/projects">Browse projects</a>.</p>
+<% } %>
 <%- include('partials/footer') %>

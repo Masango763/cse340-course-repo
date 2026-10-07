@@ -25,6 +25,7 @@ import {
     showLoginForm, processLoginForm, processLogout,
     requireLogin, requireRole, showDashboard, showUsersPage
 } from './controllers/users.js';
+import { processVolunteer, processUnvolunteer } from './controllers/volunteers.js';
 
 const router = Router();
 
@@ -68,5 +69,9 @@ router.get('/new-category', requireLogin, requireRole('admin'), showNewCategoryF
 router.post('/new-category', requireLogin, requireRole('admin'), categoryValidation, processNewCategory);
 router.get('/edit-category/:id', requireLogin, requireRole('admin'), showEditCategoryForm);
 router.post('/edit-category/:id', requireLogin, requireRole('admin'), categoryValidation, processEditCategory);
+
+// Volunteering
+router.post('/projects/volunteer', requireLogin, processVolunteer);
+router.post('/projects/unvolunteer', requireLogin, processUnvolunteer);
 
 export default router;
