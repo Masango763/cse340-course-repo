@@ -1,0 +1,13 @@
+
+/* Volunteer buttons */
+.inline-form {
+  margin: 0.5rem 0 1.5rem;
+  padding: 0;
+  background: none;
+  box-shadow: none;
+  max-width: none;
+}
+.inline-form button {
+  width: auto;
+  padding: 0.5rem 1rem;
+}

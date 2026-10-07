@@ -22,12 +22,12 @@
   <p><%= volunteerCount %> <%= volunteerCount === 1 ? 'person is' : 'people are' %> volunteering for this project.</p>
   <% if (isVolunteering) { %>
     <p><strong>You are volunteering for this project.</strong></p>
-    <form method="POST" action="/projects/unvolunteer" class="form">
+    <form method="POST" action="/projects/unvolunteer" class="inline-form">
       <input type="hidden" name="project_id" value="<%= project.id %>">
       <button type="submit">Remove Me as a Volunteer</button>
     </form>
   <% } else { %>
-    <form method="POST" action="/projects/volunteer" class="form">
+    <form method="POST" action="/projects/volunteer" class="inline-form">
       <input type="hidden" name="project_id" value="<%= project.id %>">
       <button type="submit">Volunteer for this Project</button>
     </form>

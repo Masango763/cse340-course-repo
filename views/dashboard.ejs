@@ -16,7 +16,7 @@
         <h4><a href="/project/<%= project.id %>"><%= project.name %></a></h4>
         <p><strong>Organization:</strong> <%= project.organization_name %></p>
         <p><small>Due: <%= project.due_date ? new Date(project.due_date).toLocaleDateString() : 'N/A' %></small></p>
-        <form method="POST" action="/projects/unvolunteer" class="form">
+        <form method="POST" action="/projects/unvolunteer" class="inline-form">
           <input type="hidden" name="project_id" value="<%= project.id %>">
           <input type="hidden" name="return_to" value="dashboard">
           <button type="submit">Remove Me as a Volunteer</button>
