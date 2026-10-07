@@ -34,7 +34,7 @@ export async function processLoginForm(req, res) {
         res.redirect('/login');
     } catch (error) {
         console.error(error);
-        res.status(500).render('error', { title: 'Login Error' });
+        res.status(500).render('500', { title: 'Login Error', error: null });
     }
 }
 
@@ -67,7 +67,7 @@ export async function register(req, res) {
         res.redirect('/login');
     } catch (error) {
         console.error(error);
-        res.status(500).render('error', { title: 'Registration Error' });
+        res.status(500).render('500', { title: 'Registration Error', error: null });
     }
 }
 
@@ -86,7 +86,7 @@ export async function getUsers(req, res) {
         res.render('users', { title: 'Registered Users', users: result.rows, user: req.session.user });
     } catch (error) {
         console.error(error);
-        res.status(500).render('error', { title: 'Error Loading Users' });
+        res.status(500).render('500', { title: 'Error Loading Users', error: null });
     }
 }
 
