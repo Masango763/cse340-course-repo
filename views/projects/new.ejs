@@ -11,78 +11,64 @@
   </ul>
 <% } %>
 
-<form method="POST" action="/new-project" class="form">
+<form action="/projects/new" method="POST" class="form">
+  <div class="form-group">
+    <label for="name">Project Name</label>
+    <input
+      type="text"
+      id="name"
+      name="name"
+      value="<%= typeof values !== 'undefined' && values.name ? values.name : '' %>"
+      maxlength="255"
+      required
+    >
+  </div>
 
-  <label for="name">
-    Project Name
-  </label>
+  <div class="form-group">
+    <label for="description">Description</label>
+    <textarea
+      id="description"
+      name="description"
+      rows="4"
+      required
+    ><%= typeof values !== 'undefined' && values.description ? values.description : '' %></textarea>
+  </div>
 
-  <input
-    type="text"
-    id="name"
-    name="name"
-    value="<%= values.name || '' %>"
-    maxlength="255"
-    required
-  >
+  <div class="form-group">
+    <label for="due_date">Due Date</label>
+    <input
+      type="date"
+      id="due_date"
+      name="due_date"
+      value="<%= typeof values !== 'undefined' && values.due_date ? values.due_date : '' %>"
+      required
+    >
+  </div>
 
-  <label for="description">
-    Description
-  </label>
+  <div class="form-group">
+    <label for="organization_id">Organization</label>
+    <select
+      id="organization_id"
+      name="organization_id"
+      required
+    >
+      <option value="">-- Select an organization --</option>
+      <% if (typeof organizations !== 'undefined' && organizations.length > 0) { %>
+        <% organizations.forEach(org => { %>
+          <option
+            value="<%= org.id %>"
+            <%= typeof values !== 'undefined' && String(values.organization_id) === String(org.id) ? 'selected' : '' %>
+          >
+            <%= org.name %>
+          </option>
+        <% }) %>
+      <% } %>
+    </select>
+  </div>
 
-  <textarea
-    id="description"
-    name="description"
-    rows="4"
-    required
-  ><%= values.description || '' %></textarea>
+  <!-- Category assignment elements removed from creation form per W04 requirements -->
 
-  <label for="due_date">
-    Due Date
-  </label>
-
-  <input
-    type="date"
-    id="due_date"
-    name="due_date"
-    value="<%= values.due_date || '' %>"
-    required
-  >
-
-  <label for="organization_id">
-    Organization
-  </label>
-
-  <select
-    id="organization_id"
-    name="organization_id"
-    required
-  >
-
-    <option value="">
-      -- Select an organization --
-    </option>
-
-    <% organizations.forEach(org => { %>
-
-      <option
-        value="<%= org.id %>"
-        <%= String(values.organization_id) === String(org.id)
-          ? 'selected'
-          : '' %>
-      >
-        <%= org.name %>
-      </option>
-
-    <% }) %>
-
-  </select>
-
-
-  <button type="submit">
-    Create Project
-  </button>
-
+  <button type="submit" class="btn btn-primary">Create Project</button>
 </form>
 
 <%- include('../partials/footer') %>
