@@ -18,3 +18,15 @@ export async function createCategory(name) {
 export async function updateCategory(id, name) {
   await pool.query('UPDATE categories SET name = $1 WHERE id = $2', [name, id]);
 }
+
+export async function getProjectsByCategory(categoryId) {
+  const result = await pool.query(`
+    SELECT p.*, o.name AS organization_name
+    FROM projects p
+    JOIN project_categories pc ON p.id = pc.project_id
+    JOIN organizations o ON p.organization_id = o.id
+    WHERE pc.category_id = $1
+    ORDER BY p.due_date
+  `, [categoryId]);
+  return result.rows;
+}
