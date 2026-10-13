@@ -11,7 +11,7 @@
   </ul>
 <% } %>
 
-<form action="/projects/new" method="POST" class="form">
+<form action="/new-project" method="POST" class="form">
   <div class="form-group">
     <label for="name">Project Name</label>
     <input
@@ -19,7 +19,7 @@
       id="name"
       name="name"
       value="<%= typeof values !== 'undefined' && values.name ? values.name : '' %>"
-      maxlength="255"
+      maxlength="100"
       required
     >
   </div>

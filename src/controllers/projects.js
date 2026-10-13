@@ -18,13 +18,20 @@ import {
 } from '../models/categories.js';
 import { isUserVolunteering, getVolunteerCountForProject } from '../models/volunteers.js';
 
+// Turn the submitted checkbox values into a de-duplicated list of existing category ids
+const getSelectedCategoryIds = async (formData) => {
+  const submitted = [...new Set([].concat(formData.category_ids || []).map(Number).filter(Number.isInteger))];
+  const validIds = (await getAllCategories()).map(c => c.id);
+  return submitted.filter(id => validIds.includes(id));
+}
+
 export const projectValidation = [
   body('name')
     .trim()
     .notEmpty()
     .withMessage('Project name is required.')
-    .isLength({ max: 255 })
-    .withMessage('Project name is too long.'),
+    .isLength({ max: 100 })
+    .withMessage('Project name must be 100 characters or fewer.'),
 
   body('description')
     .trim()
@@ -168,14 +175,7 @@ export const processEditProjectForm = async (
     const errors =
       validationResult(req);
 
-    const selectedIds = [
-      ...new Set(
-        []
-          .concat(req.body.category_ids || [])
-          .map(Number)
-          .filter(Number.isInteger)
-      )
-    ];
+    const selectedIds = await getSelectedCategoryIds(req.body);
 
     if (!errors.isEmpty()) {
       const organizations =
@@ -280,9 +280,7 @@ export const processAssignCategories = async (req, res, next) => {
     const projectId = req.params.id;
     const project = await getProjectById(projectId);
     if (!project) return res.status(404).render('404', { title: 'Not Found' });
-    const selectedIds = [
-      ...new Set([].concat(req.body.category_ids || []).map(Number).filter(Number.isInteger))
-    ];
+    const selectedIds = await getSelectedCategoryIds(req.body);
     await setProjectCategories(projectId, selectedIds);
     req.flash('success', 'Project categories updated successfully!');
     res.redirect(`/project/${projectId}`);

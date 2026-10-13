@@ -6,7 +6,7 @@
 <% } %>
 <form method="POST" action="/edit-project/<%= project.id %>" class="form">
   <label for="name">Project Name</label>
-  <input type="text" id="name" name="name" required maxlength="255" value="<%= values.name %>">
+  <input type="text" id="name" name="name" required maxlength="100" value="<%= values.name %>">
 
   <label for="description">Description</label>
   <textarea id="description" name="description" rows="4" required><%= values.description %></textarea>

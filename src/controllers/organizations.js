@@ -6,7 +6,7 @@ import {
 
 export const organizationValidation = [
   body('name').trim().notEmpty().withMessage('Organization name is required.')
-    .isLength({ max: 255 }).withMessage('Organization name is too long.'),
+    .isLength({ max: 100 }).withMessage('Organization name must be 100 characters or fewer.'),
   body('description').trim().notEmpty().withMessage('Description is required.'),
   body('email').trim().notEmpty().withMessage('Email is required.')
     .isEmail().withMessage('Must be a valid email address.'),
@@ -42,8 +42,8 @@ export const processNewOrganization = async (req, res, next) => {
         title: 'Add New Organization', values: req.body, errors: errors.array()
       });
     }
-    const { name, description, email } = req.body;
-    const orgId = await createOrganization({ name, description, email });
+    const { name, description, email, logo_url } = req.body;
+    const orgId = await createOrganization({ name, description, email, logo_url });
     req.flash('success', 'Organization created successfully!');
     res.redirect(`/organization/${orgId}`);
   } catch (err) {

@@ -95,26 +95,22 @@ export const getCategoriesForProject = async (
   return result.rows;
 }
 
-export const setProjectCategories = async (
-  projectId,
-  categoryIds
-) => {
-  await pool.query(
-    `DELETE FROM project_categories
-     WHERE project_id = $1`,
-    [projectId]
-  );
-
-  for (const categoryId of categoryIds) {
-    await pool.query(
-      `INSERT INTO project_categories
-        (project_id, category_id)
-       VALUES ($1, $2)
-       ON CONFLICT DO NOTHING`,
-      [
-        projectId,
-        categoryId
-      ]
-    );
+export const setProjectCategories = async (projectId, categoryIds) => {
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    await client.query('DELETE FROM project_categories WHERE project_id = $1', [projectId]);
+    for (const categoryId of categoryIds) {
+      await client.query(
+        'INSERT INTO project_categories (project_id, category_id) VALUES ($1, $2) ON CONFLICT DO NOTHING',
+        [projectId, categoryId]
+      );
+    }
+    await client.query('COMMIT');
+  } catch (err) {
+    await client.query('ROLLBACK');
+    throw err;
+  } finally {
+    client.release();
   }
 }

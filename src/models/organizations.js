@@ -18,10 +18,10 @@ export const getProjectsByOrganizationId = async (orgId) => {
   return result.rows;
 }
 
-export const createOrganization = async ({ name, description, email }) => {
+export const createOrganization = async ({ name, description, email, logo_url }) => {
   const result = await pool.query(
-    `INSERT INTO organizations (name, description, email) VALUES ($1, $2, $3) RETURNING id`,
-    [name, description, email]
+    `INSERT INTO organizations (name, description, email, logo_url) VALUES ($1, $2, $3, $4) RETURNING id`,
+    [name, description, email, logo_url || null]
   );
   return result.rows[0].id;
 }

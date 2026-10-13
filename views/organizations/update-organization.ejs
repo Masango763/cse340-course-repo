@@ -6,7 +6,7 @@
 <% } %>
 <form method="POST" action="/edit-organization/<%= organization.id %>" class="form">
   <label for="name">Organization Name</label>
-  <input type="text" id="name" name="name" value="<%= values.name || '' %>" maxlength="255" required>
+  <input type="text" id="name" name="name" value="<%= values.name || '' %>" maxlength="100" required>
 
   <label for="description">Description</label>
   <textarea id="description" name="description" rows="4" required><%= values.description || '' %></textarea>
@@ -15,7 +15,7 @@
   <input type="email" id="email" name="email" value="<%= values.email || '' %>" required>
 
   <label for="logo_url">Logo HTTPS Address</label>
-  <input type="url" id="logo_url" name="logo_url" placeholder="https://example.com/logo.png" value="<%= values.logo_url || '' %>">
+  <input type="url" id="logo_url" name="logo_url" placeholder="https://example.com/logo.png" pattern="https://.*" title="Logo address must start with https://" value="<%= values.logo_url || '' %>">
 
   <button type="submit">Save Changes</button>
 </form>
