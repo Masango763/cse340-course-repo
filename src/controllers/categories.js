@@ -6,11 +6,11 @@ export const categoryValidation = [
     .isLength({ min: 3, max: 100 }).withMessage('Category name must be 3-100 characters.')
 ];
 
-export async function showNewCategoryForm(req, res) {
+export const showNewCategoryForm = async (req, res) => {
   res.render('categories/new', { title: 'Add New Category', values: {} });
 }
 
-export async function processNewCategory(req, res, next) {
+export const processNewCategory = async (req, res, next) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -30,7 +30,7 @@ export async function processNewCategory(req, res, next) {
   }
 }
 
-export async function showEditCategoryForm(req, res, next) {
+export const showEditCategoryForm = async (req, res, next) => {
   try {
     const category = await getCategoryById(req.params.id);
     if (!category) return res.status(404).render('404', { title: 'Not Found' });
@@ -38,7 +38,7 @@ export async function showEditCategoryForm(req, res, next) {
   } catch (err) { next(err); }
 }
 
-export async function processEditCategory(req, res, next) {
+export const processEditCategory = async (req, res, next) => {
   try {
     const id = req.params.id;
     const errors = validationResult(req);
@@ -61,14 +61,14 @@ export async function processEditCategory(req, res, next) {
   }
 }
 
-export async function showCategoriesPage(req, res, next) {
+export const showCategoriesPage = async (req, res, next) => {
   try {
     const categories = await getAllCategories();
     res.render('categories/index', { title: 'Service Project Categories', categories });
   } catch (err) { next(err); }
 }
 
-export async function showCategoryDetailsPage(req, res, next) {
+export const showCategoryDetailsPage = async (req, res, next) => {
   try {
     const category = await getCategoryById(req.params.id);
     if (!category) return res.status(404).render('404', { title: 'Not Found' });

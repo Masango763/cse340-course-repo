@@ -1,3 +1,3 @@
-export function showHomePage(req, res) {
+export const showHomePage = (req, res) => {
   res.render('index', { title: 'Home' });
 }

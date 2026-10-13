@@ -1,16 +1,16 @@
 import pool from '../database/db.js';
 
-export async function getAllOrganizations() {
+export const getAllOrganizations = async () => {
   const result = await pool.query('SELECT * FROM organizations ORDER BY name');
   return result.rows;
 }
 
-export async function getOrganizationById(id) {
+export const getOrganizationById = async (id) => {
   const result = await pool.query('SELECT * FROM organizations WHERE id = $1', [id]);
   return result.rows[0];
 }
 
-export async function getProjectsByOrganizationId(orgId) {
+export const getProjectsByOrganizationId = async (orgId) => {
   const result = await pool.query(
     'SELECT * FROM projects WHERE organization_id = $1 ORDER BY due_date',
     [orgId]
@@ -18,7 +18,7 @@ export async function getProjectsByOrganizationId(orgId) {
   return result.rows;
 }
 
-export async function createOrganization({ name, description, email }) {
+export const createOrganization = async ({ name, description, email }) => {
   const result = await pool.query(
     `INSERT INTO organizations (name, description, email) VALUES ($1, $2, $3) RETURNING id`,
     [name, description, email]
@@ -26,7 +26,7 @@ export async function createOrganization({ name, description, email }) {
   return result.rows[0].id;
 }
 
-export async function updateOrganization(id, { name, description, email, logo_url }) {
+export const updateOrganization = async (id, { name, description, email, logo_url }) => {
   const result = await pool.query(
     `UPDATE organizations SET name = $1, description = $2, email = $3, logo_url = $4 WHERE id = $5`,
     [name, description, email, logo_url || null, id]

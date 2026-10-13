@@ -1,12 +1,12 @@
 import { getProjectById } from '../models/projects.js';
 import { addVolunteer, removeVolunteer } from '../models/volunteers.js';
 
-async function findProject(req) {
+const findProject = async (req) => {
   const projectId = Number(req.body.project_id);
   return Number.isInteger(projectId) ? await getProjectById(projectId) : null;
 }
 
-export async function processVolunteer(req, res, next) {
+export const processVolunteer = async (req, res, next) => {
   try {
     const project = await findProject(req);
     if (!project) {
@@ -27,7 +27,7 @@ export async function processVolunteer(req, res, next) {
   }
 }
 
-export async function processUnvolunteer(req, res, next) {
+export const processUnvolunteer = async (req, res, next) => {
   try {
     const project = await findProject(req);
     if (!project) {

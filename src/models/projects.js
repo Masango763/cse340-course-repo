@@ -1,6 +1,6 @@
 import pool from '../database/db.js';
 
-export async function getAllProjects() {
+export const getAllProjects = async () => {
   const result = await pool.query(`
     SELECT
       p.*,
@@ -14,7 +14,7 @@ export async function getAllProjects() {
   return result.rows;
 }
 
-export async function getProjectById(id) {
+export const getProjectById = async (id) => {
   const result = await pool.query(`
     SELECT
       p.*,
@@ -28,12 +28,12 @@ export async function getProjectById(id) {
   return result.rows[0];
 }
 
-export async function createProject({
+export const createProject = async ({
   name,
   description,
   due_date,
   organization_id
-}) {
+}) => {
   const result = await pool.query(
     `INSERT INTO projects
       (name, description, due_date, organization_id)
@@ -50,7 +50,7 @@ export async function createProject({
   return result.rows[0].id;
 }
 
-export async function updateProject(
+export const updateProject = async (
   id,
   {
     name,
@@ -58,7 +58,7 @@ export async function updateProject(
     due_date,
     organization_id
   }
-) {
+) => {
   const result = await pool.query(
     `UPDATE projects
      SET name = $1,
@@ -80,9 +80,9 @@ export async function updateProject(
   }
 }
 
-export async function getCategoriesForProject(
+export const getCategoriesForProject = async (
   projectId
-) {
+) => {
   const result = await pool.query(`
     SELECT c.*
     FROM categories c
@@ -95,10 +95,10 @@ export async function getCategoriesForProject(
   return result.rows;
 }
 
-export async function setProjectCategories(
+export const setProjectCategories = async (
   projectId,
   categoryIds
-) {
+) => {
   await pool.query(
     `DELETE FROM project_categories
      WHERE project_id = $1`,

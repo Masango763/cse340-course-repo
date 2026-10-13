@@ -1,6 +1,6 @@
 import pool from '../database/db.js';
 
-export async function addVolunteer(userId, projectId) {
+export const addVolunteer = async (userId, projectId) => {
   const result = await pool.query(`
     INSERT INTO project_volunteers (user_id, project_id)
     VALUES ($1, $2)
@@ -11,7 +11,7 @@ export async function addVolunteer(userId, projectId) {
   return result.rowCount > 0;
 }
 
-export async function removeVolunteer(userId, projectId) {
+export const removeVolunteer = async (userId, projectId) => {
   const result = await pool.query(`
     DELETE FROM project_volunteers
     WHERE user_id = $1 AND project_id = $2
@@ -20,7 +20,7 @@ export async function removeVolunteer(userId, projectId) {
   return result.rowCount > 0;
 }
 
-export async function isUserVolunteering(userId, projectId) {
+export const isUserVolunteering = async (userId, projectId) => {
   const result = await pool.query(`
     SELECT 1
     FROM project_volunteers
@@ -30,7 +30,7 @@ export async function isUserVolunteering(userId, projectId) {
   return result.rowCount > 0;
 }
 
-export async function getVolunteerCountForProject(projectId) {
+export const getVolunteerCountForProject = async (projectId) => {
   const result = await pool.query(`
     SELECT COUNT(*)::int AS total
     FROM project_volunteers
@@ -40,7 +40,7 @@ export async function getVolunteerCountForProject(projectId) {
   return result.rows[0].total;
 }
 
-export async function getProjectsByVolunteer(userId) {
+export const getProjectsByVolunteer = async (userId) => {
   const result = await pool.query(`
     SELECT
       p.*,

@@ -5,11 +5,11 @@ import { getProjectsByVolunteer } from '../models/volunteers.js';
 
 export { requireLogin, requireRole };
 
-export async function showLoginForm(req, res) {
+export const showLoginForm = async (req, res) => {
     res.render('login', { title: 'Login' });
 }
 
-export async function processLoginForm(req, res) {
+export const processLoginForm = async (req, res) => {
     try {
         const { email, password } = req.body;
         const query = `
@@ -41,7 +41,7 @@ export async function processLoginForm(req, res) {
 
 export const login = processLoginForm;
 
-export async function processLogout(req, res) {
+export const processLogout = async (req, res) => {
     req.session.destroy(() => {
         res.redirect('/login');
     });
@@ -49,11 +49,11 @@ export async function processLogout(req, res) {
 
 export const logout = processLogout;
 
-export async function showRegisterForm(req, res) {
+export const showRegisterForm = async (req, res) => {
     res.render('register', { title: 'Register' });
 }
 
-export async function register(req, res) {
+export const register = async (req, res) => {
     try {
         const { name, email, password } = req.body;
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -75,7 +75,7 @@ export async function register(req, res) {
 export const showUserRegistrationForm = showRegisterForm;
 export const processUserRegistrationForm = register;
 
-export async function getUsers(req, res) {
+export const getUsers = async (req, res) => {
     try {
         const query = `
             SELECT u.name, u.email, r.role_name 
@@ -91,7 +91,7 @@ export async function getUsers(req, res) {
     }
 }
 
-export async function showDashboard(req, res, next) {
+export const showDashboard = async (req, res, next) => {
   try {
     const volunteerProjects = await getProjectsByVolunteer(req.session.user.user_id);
 
@@ -107,6 +107,6 @@ export async function showDashboard(req, res, next) {
   }
 }
 
-export async function showUsersPage(req, res) {
+export const showUsersPage = async (req, res) => {
     return getUsers(req, res);
 }

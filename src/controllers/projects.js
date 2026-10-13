@@ -44,7 +44,7 @@ export const projectValidation = [
     .withMessage('Invalid organization.')
 ];
 
-export async function showNewProjectForm(req, res, next) {
+export const showNewProjectForm = async (req, res, next) => {
   try {
     const organizations =
       await getAllOrganizations();
@@ -59,7 +59,7 @@ export async function showNewProjectForm(req, res, next) {
   }
 }
 
-export async function processNewProject(req, res, next) {
+export const processNewProject = async (req, res, next) => {
   try {
     const errors = validationResult(req);
 
@@ -104,11 +104,11 @@ export async function processNewProject(req, res, next) {
   }
 }
 
-export async function showEditProjectForm(
+export const showEditProjectForm = async (
   req,
   res,
   next
-) {
+) => {
   try {
     const project =
       await getProjectById(req.params.id);
@@ -156,11 +156,11 @@ export async function showEditProjectForm(
   }
 }
 
-export async function processEditProjectForm(
+export const processEditProjectForm = async (
   req,
   res,
   next
-) {
+) => {
   try {
     const projectId =
       req.params.id;
@@ -233,14 +233,14 @@ export async function processEditProjectForm(
   }
 }
 
-export async function showProjectsPage(req, res, next) {
+export const showProjectsPage = async (req, res, next) => {
   try {
     const projects = await getAllProjects();
     res.render('projects/index', { title: 'Service Projects', projects });
   } catch (err) { next(err); }
 }
 
-export async function showProjectDetailsPage(req, res, next) {
+export const showProjectDetailsPage = async (req, res, next) => {
   try {
     const project = await getProjectById(req.params.id);
     if (!project) return res.status(404).render('404', { title: 'Not Found' });
@@ -260,7 +260,7 @@ export async function showProjectDetailsPage(req, res, next) {
   } catch (err) { next(err); }
 }
 
-export async function showAssignCategoriesForm(req, res, next) {
+export const showAssignCategoriesForm = async (req, res, next) => {
   try {
     const project = await getProjectById(req.params.id);
     if (!project) return res.status(404).render('404', { title: 'Not Found' });
@@ -275,7 +275,7 @@ export async function showAssignCategoriesForm(req, res, next) {
   } catch (err) { next(err); }
 }
 
-export async function processAssignCategories(req, res, next) {
+export const processAssignCategories = async (req, res, next) => {
   try {
     const projectId = req.params.id;
     const project = await getProjectById(projectId);

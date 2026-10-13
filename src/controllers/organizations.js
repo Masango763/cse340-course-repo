@@ -14,14 +14,14 @@ export const organizationValidation = [
     .isURL({ protocols: ['https'], require_protocol: true }).withMessage('Logo address must be a valid HTTPS URL.')
 ];
 
-export async function showOrganizationsPage(req, res, next) {
+export const showOrganizationsPage = async (req, res, next) => {
   try {
     const organizations = await getAllOrganizations();
     res.render('organizations/index', { title: 'Partner Organizations', organizations });
   } catch (err) { next(err); }
 }
 
-export async function showOrganizationDetailsPage(req, res, next) {
+export const showOrganizationDetailsPage = async (req, res, next) => {
   try {
     const organization = await getOrganizationById(req.params.id);
     if (!organization) return res.status(404).render('404', { title: 'Not Found' });
@@ -30,11 +30,11 @@ export async function showOrganizationDetailsPage(req, res, next) {
   } catch (err) { next(err); }
 }
 
-export async function showNewOrganizationForm(req, res) {
+export const showNewOrganizationForm = async (req, res) => {
   res.render('organizations/new', { title: 'Add New Organization', values: {} });
 }
 
-export async function processNewOrganization(req, res, next) {
+export const processNewOrganization = async (req, res, next) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -57,7 +57,7 @@ export async function processNewOrganization(req, res, next) {
   }
 }
 
-export async function showEditOrganizationForm(req, res, next) {
+export const showEditOrganizationForm = async (req, res, next) => {
   try {
     const organization = await getOrganizationById(req.params.id);
     if (!organization) return res.status(404).render('404', { title: 'Not Found' });
@@ -67,7 +67,7 @@ export async function showEditOrganizationForm(req, res, next) {
   } catch (err) { next(err); }
 }
 
-export async function processEditOrganizationForm(req, res, next) {
+export const processEditOrganizationForm = async (req, res, next) => {
   try {
     const orgId = req.params.id;
     const errors = validationResult(req);
