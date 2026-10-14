@@ -129,15 +129,6 @@ export const showEditProjectForm = async (
     const organizations =
       await getAllOrganizations();
 
-    const allCategories =
-      await getAllCategories();
-
-    const assigned =
-      await getCategoriesForProject(project.id);
-
-    const assignedIds =
-      assigned.map(c => c.id);
-
     const values = {
       ...project,
       due_date: project.due_date
@@ -153,8 +144,6 @@ export const showEditProjectForm = async (
         title: 'Edit Project',
         project,
         organizations,
-        allCategories,
-        assignedIds,
         values
       }
     );
@@ -175,14 +164,9 @@ export const processEditProjectForm = async (
     const errors =
       validationResult(req);
 
-    const selectedIds = await getSelectedCategoryIds(req.body);
-
     if (!errors.isEmpty()) {
       const organizations =
         await getAllOrganizations();
-
-      const allCategories =
-        await getAllCategories();
 
       return res.status(400).render(
         'projects/update-project',
@@ -192,8 +176,6 @@ export const processEditProjectForm = async (
             id: projectId
           },
           organizations,
-          allCategories,
-          assignedIds: selectedIds,
           values: req.body,
           errors: errors.array()
         }
@@ -215,11 +197,6 @@ export const processEditProjectForm = async (
         due_date,
         organization_id
       }
-    );
-
-    await setProjectCategories(
-      projectId,
-      selectedIds
     );
 
     req.flash(

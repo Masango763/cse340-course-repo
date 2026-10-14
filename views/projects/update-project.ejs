@@ -21,16 +21,6 @@
     <% }) %>
   </select>
 
-  <fieldset>
-    <legend>Categories</legend>
-    <% allCategories.forEach(cat => { %>
-      <label class="checkbox-label">
-        <input type="checkbox" name="category_ids" value="<%= cat.id %>" <%= assignedIds.includes(cat.id) ? 'checked' : '' %>>
-        <%= cat.name %>
-      </label>
-    <% }) %>
-  </fieldset>
-
   <button type="submit">Save Changes</button>
 </form>
 <%- include('../partials/footer') %>
